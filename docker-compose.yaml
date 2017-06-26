@@ -1,0 +1,17 @@
+version: "2"
+services:
+  live-origin:
+    image: unifiedstreaming/live:latest
+    ports:
+      - 80:80
+    environment:
+      - USP_LICENSE_KEY
+      - CHANNEL=test
+      - PUB_POINT_OPTS=--archiving=1 --archive_length=21600 --archive_segment_length=3600 --dvr_window_length=1800 --restart_on_encoder_reconnect
+  ffmpeg:
+    build: ffmpeg
+    environment:
+      - PUB_POINT_URI=http://live-origin/test/test.isml/Streams(ffmpeg)
+      - LOGO_OVERLAY=
+    depends_on:
+      - live-origin
