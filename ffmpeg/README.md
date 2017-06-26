@@ -64,7 +64,7 @@ docker run \
 
 Should produce a stream which looks like:
 
-![example](https://raw.githubusercontent.com/unifiedstreaming/live-demo/ffmpeg/master/example_logo.png)
+![example](https://raw.githubusercontent.com/unifiedstreaming/live-demo/master/ffmpeg/example_logo.png)
 
 
 ### Example 2 - no logo
@@ -79,4 +79,4 @@ docker run \
 
 Should produce a stream which looks like:
 
-![example](https://raw.githubusercontent.com/unifiedstreaming/live-demo/ffmpeg/master/example.png)
+![example](https://raw.githubusercontent.com/unifiedstreaming/live-demo/master/ffmpeg/example.png)

@@ -20,7 +20,7 @@ fi
 
 if [ -z ${LOGO_OVERLAY+x$LOGO_OVERLAY} ]
   then
-  export LOGO_OVERLAY="https://raw.githubusercontent.com/unifiedstreaming/live-demo/ffmpeg/master/usp_logo_white.png"
+  export LOGO_OVERLAY="https://raw.githubusercontent.com/unifiedstreaming/live-demo/master/ffmpeg/usp_logo_white.png"
 fi
 
 if [ ! -z $LOGO_OVERLAY ]
