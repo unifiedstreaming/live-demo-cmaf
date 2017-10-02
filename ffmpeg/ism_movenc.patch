@@ -1,7 +1,7 @@
-From 3dcfff66943a7f2bb2939493bc1456123b023a83 Mon Sep 17 00:00:00 2001
+From c03059e18df5ed45bbca60fc924b62e4515b7fb1 Mon Sep 17 00:00:00 2001
 From: Mark Ogle <mark@unified-streaming.com>
-Date: Mon, 24 Oct 2016 16:10:23 +0200
-Subject: [PATCH] patch movenc to support ism_offset
+Date: Mon, 2 Oct 2017 14:50:54 +0200
+Subject: [PATCH] add ism_offset support to movenc
 
 ---
  libavformat/movenc.c | 2 ++
@@ -9,10 +9,10 @@ Subject: [PATCH] patch movenc to support ism_offset
  2 files changed, 3 insertions(+)
 
 diff --git a/libavformat/movenc.c b/libavformat/movenc.c
-index 8b4aa5f..e31ad65 100644
+index 9c3e6437d7..4d7d394dfb 100644
 --- a/libavformat/movenc.c
 +++ b/libavformat/movenc.c
-@@ -80,6 +80,7 @@ static const AVOption options[] = {
+@@ -86,6 +86,7 @@ static const AVOption options[] = {
      { "min_frag_duration", "Minimum fragment duration", offsetof(MOVMuxContext, min_fragment_duration), AV_OPT_TYPE_INT, {.i64 = 0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
      { "frag_size", "Maximum fragment size", offsetof(MOVMuxContext, max_fragment_size), AV_OPT_TYPE_INT, {.i64 = 0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
      { "ism_lookahead", "Number of lookahead entries for ISM files", offsetof(MOVMuxContext, ism_lookahead), AV_OPT_TYPE_INT, {.i64 = 0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
@@ -20,19 +20,19 @@ index 8b4aa5f..e31ad65 100644
      { "video_track_timescale", "set timescale of all video tracks", offsetof(MOVMuxContext, video_track_timescale), AV_OPT_TYPE_INT, {.i64 = 0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
      { "brand",    "Override major brand", offsetof(MOVMuxContext, major_brand),   AV_OPT_TYPE_STRING, {.str = NULL}, .flags = AV_OPT_FLAG_ENCODING_PARAM },
      { "use_editlist", "use edit list", offsetof(MOVMuxContext, use_editlist), AV_OPT_TYPE_BOOL, {.i64 = -1}, -1, 1, AV_OPT_FLAG_ENCODING_PARAM},
-@@ -5646,6 +5647,7 @@ static int mov_write_header(AVFormatContext *s)
+@@ -5940,6 +5941,7 @@ static int mov_init(AVFormatContext *s)
           * this is updated. */
          track->hint_track = -1;
          track->start_dts  = AV_NOPTS_VALUE;
 +        track->frag_start += mov->ism_offset;
          track->start_cts  = AV_NOPTS_VALUE;
          track->end_pts    = AV_NOPTS_VALUE;
-         if (st->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
+         track->dts_shift  = AV_NOPTS_VALUE;
 diff --git a/libavformat/movenc.h b/libavformat/movenc.h
-index 1f7a9d7..e48d5b2 100644
+index cc2a155d79..5c02c96958 100644
 --- a/libavformat/movenc.h
 +++ b/libavformat/movenc.h
-@@ -190,6 +190,7 @@ typedef struct MOVMuxContext {
+@@ -191,6 +191,7 @@ typedef struct MOVMuxContext {
      int max_fragment_size;
      int ism_lookahead;
      AVIOContext *mdat_buf;
@@ -41,5 +41,5 @@ index 1f7a9d7..e48d5b2 100644
  
      int video_track_timescale;
 -- 
-2.9.3 (Apple Git-75)
+2.13.5 (Apple Git-94)
 

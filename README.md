@@ -9,7 +9,7 @@ The demo consists of two Docker containers which are deployed using Docker Compo
 
 1. Install [Docker](http://docker.io)
 2. Install [Docker Compose](http://docs.docker.com/compose/install/)
-3. Clone this repository
+3. Download this demo's [Compose file](https://github.com/unifiedstreaming/live-demo/blob/master/docker-compose.yaml)
 
 
 ## Build FFmpeg
@@ -17,7 +17,7 @@ The demo consists of two Docker containers which are deployed using Docker Compo
 As this demonstration requires a patch to add functionality to FFmpeg for 
 improved live streaming the Docker image needs to be built locally.
 
-This can be done by running:
+This can be done by running the following command in the directory of this demo's Compose file:
 
 ```bash
 #!/bin/sh

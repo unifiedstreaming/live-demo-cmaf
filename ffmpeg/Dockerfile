@@ -44,7 +44,8 @@ RUN     buildDeps="autoconf \
 
 ## ffmpeg source from github
 RUN     DIR=$(mktemp -d) && cd ${DIR} && \
-        git clone --depth 1 https://github.com/FFmpeg/FFmpeg.git . && \
+        git clone https://github.com/FFmpeg/FFmpeg.git . && \
+        git checkout -b ism_build cf3d2d52b59ddfc2a7c65a8e66f7698c4b837e51 && \
         git apply /root/ism_movenc.patch && \
         ./configure --prefix="${SRC}" \
         --extra-cflags="-I${SRC}/include" \
