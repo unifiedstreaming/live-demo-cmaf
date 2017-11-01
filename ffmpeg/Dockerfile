@@ -34,7 +34,7 @@ RUN     buildDeps="autoconf \
 
         DIR=$(mktemp -d) && cd ${DIR} && \
 ## x264 http://www.videolan.org/developers/x264.html
-        curl -sL https://ftp.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-${X264_VERSION}.tar.bz2 | \
+        curl -sL https://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-${X264_VERSION}.tar.bz2 | \
         tar -jx --strip-components=1 && \
         ./configure --prefix="${SRC}" --bindir="${SRC}/bin" --enable-pic --enable-shared --disable-cli && \
         make && \
