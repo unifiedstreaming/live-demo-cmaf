@@ -1,4 +1,4 @@
-version: "2"
+version: "2.1"
 services:
   live-origin:
     image: unifiedstreaming/live:latest
@@ -8,10 +8,16 @@ services:
       - USP_LICENSE_KEY
       - CHANNEL=test
       - PUB_POINT_OPTS=--archiving=1 --archive_length=21600 --archive_segment_length=3600 --dvr_window_length=1800 --restart_on_encoder_reconnect
+    healthcheck:
+      test: kill -0 1
+      interval: 2s
+      timeout: 5s
+      retries: 30
   ffmpeg:
     build: https://github.com/unifiedstreaming/live-demo.git#:ffmpeg
     environment:
       - PUB_POINT_URI=http://live-origin/test/test.isml/Streams(ffmpeg)
       - LOGO_OVERLAY=
     depends_on:
-      - live-origin
+      live-origin:
+        condition: service_healthy
