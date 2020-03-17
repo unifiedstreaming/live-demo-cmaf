@@ -43,8 +43,6 @@ RUN     buildDeps="autoconf \
 ## ffmpeg source from github
 RUN     DIR=$(mktemp -d) && cd ${DIR} && \
         git clone https://github.com/FFmpeg/FFmpeg.git . && \
-        git checkout -b ism_build n4.1.4 && \
-        git apply /root/ism_movenc.patch && \
         ./configure --prefix="${SRC}" \
         --extra-cflags="-I${SRC}/include" \
         --extra-ldflags="-L${SRC}/lib" \
