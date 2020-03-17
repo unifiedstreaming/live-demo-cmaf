@@ -14,11 +14,11 @@ services:
       timeout: 5s
       retries: 30
   ffmpeg:
-    build: https://github.com/unifiedstreaming/live-demo.git#:ffmpeg
+    build: ffmpeg
     environment:
       - FRAME_RATE=25
       - GOP_LENGTH=24
-      - PUB_POINT_URI=http://live-origin/test/test.isml/Streams(ffmpeg)
+      - PUB_POINT_URI=http://live-origin/test/test.isml/
       - LOGO_OVERLAY=
     depends_on:
       live-origin:
