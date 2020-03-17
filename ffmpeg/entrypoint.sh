@@ -41,7 +41,7 @@ exec ffmpeg -re -f lavfi -i smptehdbars=size=1280x960:rate=25 -re \
        	x=iw/2-iw/7:\
        	c=0x00000000@1:\
        	w=iw/3.5: h=36:\
-       	t=max,drawtext=timecode_rate=${FRAME_RATE}:\
+       	t=3,drawtext=timecode_rate=${FRAME_RATE}:\
        	timecode='$(date -u +%H\\:%M\\:%S)\\${FRAME_SEP}$(($(date +%3N)/$(($FRAME_RATE))))':\
        	tc24hmax=1: fontsize=32: x=(w-tw)/2+tw/2: y=30:\
        	fontcolor=white, drawtext=text='%{gmtime\:%Y-%m-%d}\ ':\
