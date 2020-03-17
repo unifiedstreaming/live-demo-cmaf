@@ -24,17 +24,19 @@ if [ -z "${PUB_POINT_URI}" ]; then
   exit 1
 fi
 
-# get current time in microseconds
-DATE_MICRO=$(LANG=C date +%s.%6N)
-DATE_PART1=${DATE_MICRO%.*}
-DATE_PART2=${DATE_MICRO#*.}
-# the -ism_offset option has a timescale of 10,000,000, so add an extra zero
-ISM_OFFSET=${DATE_PART1}${DATE_PART2}0
-# the number of seconds into the current day
-DATE_MOD_DAYS=$((${DATE_PART1}%86400))
+timecode=$(date +%H\\:%M\\:%S).00
+PUB_POINT=${PUB_POINT_URI}
 
 set -x
-exec ffmpeg -re -f lavfi -i smptehdbars=size=1280x960:rate=25 -i  usp_logo_white.png -filter_complex "\
+exec ffmpeg -re -f lavfi -i smptehdbars=size=1280x960:rate=25 -re \
+	-f lavfi -i \
+	sine=beep_factor=4:sample_rate=48000:duration=1000000000000 \
+       	-i  usp_logo_white.png \
+        -map 1:a -c:a aac -vn -b:a 64k -f mp4 -fflags +genpts -frag_duration 960000 -min_frag_duration 960000 \
+        -movflags +empty_moov+separate_moof+default_base_moof  "$PUB_POINT/Streams(audio-aac-64k.cmfa)" \
+        -map 1:a -c:a aac -vn -b:a 128k -f mp4 -fflags +genpts -frag_duration 960000 -min_frag_duration 960000 \
+        -movflags +empty_moov+separate_moof+default_base_moof  "$PUB_POINT/Streams(audio-aac-128k.cmfa)" \
+        -filter_complex "\
 	[0:v]drawbox=y=25:\
        	x=iw/2-iw/7:\
        	c=0x00000000@1:\
@@ -45,13 +47,13 @@ exec ffmpeg -re -f lavfi -i smptehdbars=size=1280x960:rate=25 -i  usp_logo_white
        	fontcolor=white, drawtext=text='%{gmtime\:%Y-%m-%d}\ ':\
        	fontsize=32: x=(w-tw)/2-tw/2: y=30:\
        	fontcolor=white${OVERLAY_FILTER},split=3[out1][out2][out3]" \
-    -map "[out1]" -s 1280x960 -b:v 1000k -an -g 24 -r 25 -keyint_min 24 \
-	-c:v libx264 -profile main -preset ultrafast -tune zerolatency -fflags +genpts \
-    -movflags frag_keyframe+empty_moov+separate_moof+default_base_moof \
+       	-map "[out1]" -s 1280x960 -b:v 1000k -an -g 24 -r 25 -keyint_min 24 \
+	-c:v libx264 -profile:v main -preset ultrafast -tune zerolatency  -fflags +genpts \
+    -movflags +frag_keyframe+empty_moov+separate_moof+default_base_moof \
 	-f mp4 "$PUB_POINT/Streams(video2-1280-1000k.cmfv)" \
-    -map "[out2]" -s 640x480 -b:v 600k -an  -g 24 -r 25 -keyint_min 24 -preset ultrafast -tune zerolatency \
-	-c:v libx264  -fflags +genpts -movflags frag_keyframe+empty_moov+separate_moof+default_base_moof \
-	-f mp4  "$PUB_POINT/Streams(video2-640-600k.cmfv)" \
-    -map "[out3]" -s 320x240 -b:v 400k -an  -g 24 -r 25 -keyint_min 24 -preset ultrafast -tune zerolatency \
-	-c:v libx264 -fflags +genpts -movflags frag_keyframe+empty_moov+separate_moof+default_base_moof \
+    -map "[out2]" -s 640x480 -b:v 700k -an  -g 24 -r 25 -keyint_min 24 -preset ultrafast -tune zerolatency -profile:v main \
+	-c:v libx264  -fflags +genpts -movflags +frag_keyframe+empty_moov+separate_moof+default_base_moof \
+	-f mp4  "$PUB_POINT/Streams(video2-640-700k.cmfv)" \
+    -map "[out3]" -s 320x240 -b:v 400k -an  -g 24 -r 25 -keyint_min 24 -preset ultrafast -tune zerolatency -profile:v main \
+	-c:v libx264 -fflags +genpts -movflags +frag_keyframe+empty_moov+separate_moof+default_base_moof \
 	-f mp4 "$PUB_POINT/Streams(video2-320-400k.cmfv)"
