@@ -31,7 +31,7 @@ set -x
 exec ffmpeg -re -f lavfi -i smptehdbars=size=1280x960:rate=25 -re \
 	-f lavfi -i \
 	sine=beep_factor=4:sample_rate=48000:duration=1000000000000 \
-       	-i  https://raw.githubusercontent.com/unifiedstreaming/live-demo/master/ffmpeg/usp_logo_white.pngusp_logo_white.png \
+       	-i  https://raw.githubusercontent.com/unifiedstreaming/live-demo/master/ffmpeg/usp_logo_white.png \
         -map 1:a -c:a aac -vn -b:a 64k -f mp4 -fflags +genpts -frag_duration 960000 -min_frag_duration 960000 \
         -movflags +empty_moov+separate_moof+default_base_moof  "$PUB_POINT/Streams(audio-aac-64k.cmfa)" \
         -map 1:a -c:a aac -vn -b:a 128k -f mp4 -fflags +genpts -frag_duration 960000 -min_frag_duration 960000 \
