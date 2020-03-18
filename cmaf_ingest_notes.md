@@ -7,8 +7,7 @@ CMAF support via mov muxer in ffmpeg
 
 - bit-rate signalling for audio tracks 
 - ism offset / timestamp offset 
-- multiple bit-rates 
-- (due to creating the same init segment/avc config for different tracks)
+- multiple bit-rates (due to creating the same init segment/avc config for different tracks)
 - CMAF subtitles (not supported in ffmpeg)
 
 # a better/fuller demo can be found: 
