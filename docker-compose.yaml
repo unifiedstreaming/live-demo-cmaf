@@ -18,7 +18,7 @@ services:
     environment:
       - FRAME_RATE=25
       - GOP_LENGTH=24
-      - AUDIO_FRAG_DUR_MS=960000
+      - AUDIO_FRAG_DUR_MICROS=960000
       - PUB_POINT_URI=http://live-origin/test/test.isml/
       - LOGO_OVERLAY=
     depends_on:
