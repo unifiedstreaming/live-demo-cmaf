@@ -3,6 +3,7 @@
 # set env vars to defaults if not already set
 export FRAME_RATE="${FRAME_RATE:-25}"
 export GOP_LENGTH="${GOP_LENGTH:-${FRAME_RATE}}"
+export AUDIO_FRAG_DUR_MICROS="${AUDIO_FRAG_DUR_MICROS:-9600000}"
 
 if [ "${FRAME_RATE}" = "30000/1001" -o "${FRAME_RATE}" = "60000/1001" ]; then
   echo "drop frame"
@@ -47,5 +48,5 @@ exec ffmpeg -re -f lavfi -i smptehdbars=size=1280x960:rate=$FRAME_RATE -re \
 	-c:v libx264 -profile:v main -preset ultrafast -tune zerolatency  -fflags +genpts \
         -movflags +frag_keyframe+empty_moov+separate_moof+default_base_moof \
 	-f mp4 "$PUB_POINT/Streams(video2-1280-1000k.cmfv)" \
-	-map 1:a -c:a aac -vn -b:a 64k -f mp4 -fflags +genpts -frag_duration 960000 -min_frag_duration 960000 \
+	-map 1:a -c:a aac -vn -b:a 64k -f mp4 -fflags +genpts -frag_duration $AUDIO_FRAG_DUR_MICROS -min_frag_duration $AUDIO_FRAG_DUR_MICROS \
         -movflags +empty_moov+separate_moof+default_base_moof  "$PUB_POINT/Streams(audio-aac-64k.cmfa)" 
