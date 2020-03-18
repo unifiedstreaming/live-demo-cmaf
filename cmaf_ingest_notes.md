@@ -1,4 +1,4 @@
-# simple cmaf ingest can be achieved with ffmpeg mov muxer 
+# simple cmaf ingest with ffmpeg
 
 # Working 
 
