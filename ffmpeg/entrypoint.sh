@@ -43,7 +43,7 @@ exec ffmpeg -re -f lavfi -i smptehdbars=size=1280x960:rate=$FRAME_RATE -re \
        	fontcolor=white, drawtext=text='%{gmtime\:%Y-%m-%d}\ ':\
        	fontsize=32: x=(w-tw)/2-tw/2: y=30:\
        	fontcolor=white${OVERLAY_FILTER},split=3[out1][out2][out3]" \
-       	-map 0:v -s 1280x960 -b:v 1200k -an -g $GOP_SIZE -r $FRAME_RATE -keyint_min 24 \
+       	-map 0:v -s 1280x960 -b:v 1200k -an -g $GOP_SIZE -r $FRAME_RATE -keyint_min $GOP_SIZE \
 	-c:v libx264 -profile:v main -preset ultrafast -tune zerolatency  -fflags +genpts \
         -movflags +frag_keyframe+empty_moov+separate_moof+default_base_moof \
 	-f mp4 "$PUB_POINT/Streams(video2-1280-1000k.cmfv)" \
