@@ -16,3 +16,7 @@ https://github.com/unifiedstreaming/cmaf-ingest-demo
 - subtitles 
 - timed metadata 
 - no ffmpeg
+
+# example test stream 
+an example test stream is made temporarily available deploying this setup
+http://ec2-54-93-96-123.eu-central-1.compute.amazonaws.com/test/test.isml/.mpd
