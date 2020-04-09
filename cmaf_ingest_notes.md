@@ -12,6 +12,7 @@ Protocol’ Interface 1.
 - Lack of bit-rate signalling for audio tracks 
 - CMAF subtitles (not supported in ffmpeg)
 - Timed Metadata (unable to generate dynamically/requires external tooling)
+- Unable to compile/run natively on ubuntu (av_interleaved_write_frame(): Broken pipe) errors
 
 # To do
 - Multi framerate (add 50FPS)
