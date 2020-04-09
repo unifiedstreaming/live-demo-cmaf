@@ -19,6 +19,7 @@ Protocol’ Interface 1.
 - Optimise Encoding profiles/quality
 - Optimise Origin configuration
 - Add aditional test to video to differentiate between MSS/CMAF Reference streams
+- Test Interface 2 DASH ingest with apache rewrite rules
 
 # Demo Stream
 http://dai-interop.unified-streaming.com:8081/test/test.isml/.mpd
