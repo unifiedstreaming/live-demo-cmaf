@@ -1,19 +1,24 @@
-# simple cmaf ingest with ffmpeg
+# Overview
 
-2x audio (aac) and 2x video ingest (avc) 
-CMAF support via mov muxer in ffmpeg
+CMAF Live reference streams with ffmpeg ustilising 'DASH-IF Live Media Ingest
+Protocol’ Interface 1. 
 
-# To Be Done
-- bit-rate signalling for audio tracks 
+Video Track 1 - 1920x1080 1000k AVC 48GOP@25FPS
+Video Track 2 - 1280x720 500k AVC 48GOP@25FPS
+Audio Track 1 - 64kbs 48kHz AAC-LC - Dutch language 
+Audio Track 2 - 128kbs 48kHz AAC-LC - Dutch language
+
+# Known issues
+- Lack of bit-rate signalling for audio tracks 
 - CMAF subtitles (not supported in ffmpeg)
+- Timed Metadata (unable to generate dynamically/requires external tooling)
 
-# a better/fuller demo can be found: 
-https://github.com/unifiedstreaming/cmaf-ingest-demo 
-- multiple bit-rates in AS 
-- subtitles 
-- timed metadata 
-- no ffmpeg
+# To do
+- Multi framerate (add 50FPS)
+- Enable prft in ffmpeg
+- Optimise Encoding profiles/quality
+- Optimise Origin configuration
+- Add aditional test to video to differentiate between MSS/CMAF Reference streams
 
-# example test stream 
-an example test stream is made temporarily available deploying this setup
-http://ec2-54-93-96-123.eu-central-1.compute.amazonaws.com/test/test.isml/.mpd
+# Demo Stream
+http://dai-interop.unified-streaming.com:8081/test/test.isml/.mpd
