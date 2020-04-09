@@ -8,7 +8,7 @@ services:
       - USP_LICENSE_KEY
       - CHANNEL=test
       - LOG_LEVEL=debug
-      - PUB_POINT_OPTS=--archiving=1 --archive_length=21600 --archive_segment_length=3600 --dvr_window_length=30 --restart_on_encoder_reconnect --mpd.min_buffer_time=1 --mpd.suggested_presentation_delay=1
+      - PUB_POINT_OPTS=--archiving=1 --archive_length=3600 --archive_segment_length=1800 --dvr_window_length=30 --restart_on_encoder_reconnect --mpd.min_buffer_time=48/25 --mpd.suggested_presentation_delay=48/25
     healthcheck:
       test: kill -0 1
       interval: 2s
@@ -18,8 +18,8 @@ services:
     build: ffmpeg
     environment:
       - FRAME_RATE=25
-      - GOP_LENGTH=24
-      - AUDIO_FRAG_DUR_MICROS=960000
+      - GOP_LENGTH=48
+      - AUDIO_FRAG_DUR_MICROS=1920000
       - PUB_POINT_URI=http://live-origin/test/test.isml/
       - LOGO_OVERLAY=
     depends_on:
