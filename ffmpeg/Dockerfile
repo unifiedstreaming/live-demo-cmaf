@@ -1,5 +1,5 @@
 # ffmpeg - http://ffmpeg.org/download.html
-# based on image from 
+# based on image from
 # https://hub.docker.com/r/jrottenberg/ffmpeg/
 #
 #
@@ -43,6 +43,8 @@ RUN     buildDeps="autoconf \
 ## ffmpeg source from github
 RUN     DIR=$(mktemp -d) && cd ${DIR} && \
         git clone https://github.com/FFmpeg/FFmpeg.git . && \
+        cp /root/ism_movenc.patch . && \
+        git apply ism_movenc.patch && \
         ./configure --prefix="${SRC}" \
         --extra-cflags="-I${SRC}/include" \
         --extra-ldflags="-L${SRC}/lib" \

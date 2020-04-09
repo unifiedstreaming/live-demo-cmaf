@@ -7,6 +7,7 @@ services:
     environment:
       - USP_LICENSE_KEY
       - CHANNEL=test
+      - LOG_LEVEL=debug
       - PUB_POINT_OPTS=--archiving=1 --archive_length=21600 --archive_segment_length=3600 --dvr_window_length=30 --restart_on_encoder_reconnect --mpd.min_buffer_time=1 --mpd.suggested_presentation_delay=1
     healthcheck:
       test: kill -0 1
