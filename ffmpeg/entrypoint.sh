@@ -31,7 +31,7 @@ PUB_POINT=${PUB_POINT_URI}
 set -x
 exec ffmpeg -re \
 -f lavfi \
--i smptehdbars=size=1280x720 \
+-i smptehdbars=size=1920x1080 \
 -i "https://raw.githubusercontent.com/unifiedstreaming/live-demo/master/ffmpeg/usp_logo_white.png" \
 -filter_complex \
 "sine=frequency=1:beep_factor=480:sample_rate=48000, \
@@ -52,7 +52,7 @@ drawtext=timecode_rate=${FRAME_RATE}: timecode='$(date -u +%H\\:%M\\:%S)\\${FRAM
 drawtext=text='%{gmtime\:%Y-%m-%d}\ ': fontsize=32: x=(w-tw)/2-tw/2: y=30: fontcolor=white[v+tc]; \
 [v+tc][1]overlay=eval=init:x=W-15-w:y=15[vid];
 [vid]split=2[vid0][vid1]" \
--map "[vid0]" -s 1280x720 -c:v libx264 -b:v 500k \
+-map "[vid0]" -s 1280x720 -c:v libx264 -b:v 500k -profile:v main -preset ultrafast -tune zerolatency \
 -g $GOP_LENGTH \
 -r $FRAME_RATE \
 -keyint_min $GOP_LENGTH \
@@ -61,7 +61,7 @@ drawtext=text='%{gmtime\:%Y-%m-%d}\ ': fontsize=32: x=(w-tw)/2-tw/2: y=30: fontc
 -video_track_timescale 10000000 \
 -ism_offset $(($(date +%s)*10000000)) \
 -f mp4 "$PUB_POINT/Streams(video-720-500k.cmfv)" \
--map "[vid1]" -s 1920x1080 -c:v libx264 -b:v 1000k \
+-map "[vid1]" -s 1920x1080 -c:v libx264 -b:v 1000k -profile:v main -preset ultrafast -tune zerolatency \
 -g $GOP_LENGTH \
 -r $FRAME_RATE \
 -keyint_min $GOP_LENGTH \
@@ -69,7 +69,7 @@ drawtext=text='%{gmtime\:%Y-%m-%d}\ ': fontsize=32: x=(w-tw)/2-tw/2: y=30: fontc
 -movflags +frag_keyframe+empty_moov+separate_moof+default_base_moof \
 -video_track_timescale 10000000 \
 -ism_offset $(($(date +%s)*10000000)) \
--f mp4 "$PUB_POINT/Streams(video-1080-100k.cmfv)" \
+-f mp4 "$PUB_POINT/Streams(video-1080-1000k.cmfv)" \
 -map "[a2]" -c:a aac -b:a 64k  -metadata:s:a:0 language=dut \
 -fflags +genpts \
 -frag_duration $AUDIO_FRAG_DUR_MICROS \
