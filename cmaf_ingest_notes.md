@@ -8,19 +8,5 @@ Protocol’ Interface 1.
 - Audio Track 1 - 64kbs 48kHz AAC-LC - Dutch language 
 - Audio Track 2 - 128kbs 48kHz AAC-LC - English language
 
-# Known issues
-- Lack of bit-rate signalling for audio tracks 
-- CMAF subtitles (not supported in ffmpeg)
-- Timed Metadata (unable to generate dynamically/requires external tooling)
-- Unable to compile/run natively on ubuntu (av_interleaved_write_frame(): Broken pipe) errors
-
-# To do
-- Multi framerate (add 50FPS)
-- Enable prft in ffmpeg
-- Optimise Encoding profiles/quality
-- Optimise Origin configuration
-- Add aditional test to video to differentiate between MSS/CMAF Reference streams
-- Test Interface 2 DASH ingest with apache rewrite rules
-
 # Demo Stream
 http://dai-interop.unified-streaming.com:8081/test/test.isml/.mpd
