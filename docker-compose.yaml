@@ -20,7 +20,7 @@ services:
       - FRAME_RATE=25
       - GOP_LENGTH=48
       - AUDIO_FRAG_DUR_MICROS=1920000
-      - PUB_POINT_URI=http://live-origin/test/test.isml/
+      - PUB_POINT_URI=http://live-origin/test/test.isml
       - LOGO_OVERLAY=
     depends_on:
       live-origin:
