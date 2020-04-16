@@ -48,7 +48,8 @@ color=size=1280x100:color=black[blackbg]; \
 [blackbg][waves]overlay[waves2]; \
 [0][waves2]overlay=y=620[v]; \
 [v]drawbox=y=25: x=iw/2-iw/7: c=0x00000000@1: w=iw/3.5: h=36: t=fill, \
-drawtext=text='CMAF Live Ingest EBU Bars': fontsize=32: x=(w-text_w)/2: y=75: fontsize=32: fontcolor=white, \
+drawtext=text='DASH-IF Live Media Ingest Protocol': fontsize=32: x=(w-text_w)/2: y=75: fontsize=32: fontcolor=white,\
+drawtext=text='Interface 1 - CMAF': fontsize=32: x=(w-text_w)/2: y=125: fontsize=32: fontcolor=white, \
 drawtext=timecode_rate=${FRAME_RATE}: timecode='$(date -u +%H\\:%M\\:%S)\\${FRAME_SEP}$(($(date +%3N)/$((1000/$FRAME_RATE))))': tc24hmax=1: fontsize=32: x=(w-tw)/2+tw/2: y=30: fontcolor=white, \
 drawtext=text='%{gmtime\:%Y-%m-%d}\ ': fontsize=32: x=(w-tw)/2-tw/2: y=30: fontcolor=white[v+tc]; \
 [v+tc][1]overlay=eval=init:x=W-15-w:y=15[vid];
