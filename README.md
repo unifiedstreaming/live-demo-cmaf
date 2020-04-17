@@ -14,7 +14,13 @@ The demo consists of two Docker containers which are deployed using Docker Compo
 
 ## Build FFmpeg
 
-As this demonstration contains specific encoding configurations for FFmpeg for live streaming CMAF, the Docker image needs to be built locally.
+As this demonstration contains will generate the following stream configurations, so the Docker image needs to be built locally.
+
+- Video Track 1 - 1280x720 1000k AVC 48GOP@25FPS
+- Video Track 2 - 1024x576 500k AVC 48GOP@25FPS
+- Audio Track 1 - 64kbs 48kHz AAC-LC - English language 
+- Audio Track 2 - 128kbs 48kHz AAC-LC - Dutch language
+
 
 This can be done by running the following command in the directory of this demo's Compose file:
 
