@@ -68,5 +68,5 @@ ffplay http://localhost/test/test.isml/.m3u8
 
 And it should look something like:
 
-![example](https://raw.githubusercontent.com/unifiedstreaming/live-demo/master/ffmpeg/example_logo.png)
+![example](https://raw.githubusercontent.com/RufaelDev/live-demo/cmaf_ingest/ffmpeg/example_cmaf.png)
 
