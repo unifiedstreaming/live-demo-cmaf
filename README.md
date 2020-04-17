@@ -1,9 +1,9 @@
-# Unified Streaming Live Origin Demo
+# Unified Streaming Live Origin Demo 
+# DASH-IF Live Media Ingest Protocal - Interface 1 (CMAF)
 
-This demonstration shows a [Unified Streaming](http://www.unified-streaming.com/products/unified-origin) Origin setup with a Live publishing point and uses [FFmpeg](https://ffmpeg.org/) as an encoder to push an input stream.
+This demonstration shows a [Unified Streaming](http://www.unified-streaming.com/products/unified-origin) Origin setup with a Live publishing point and [FFmpeg](https://ffmpeg.org/) as an encoder to push CMAF a live ingest stream.
 
 The demo consists of two Docker containers which are deployed using Docker Compose.
-
 
 ## Setup
 
@@ -14,8 +14,7 @@ The demo consists of two Docker containers which are deployed using Docker Compo
 
 ## Build FFmpeg
 
-As this demonstration requires a patch to add functionality to FFmpeg for 
-improved live streaming the Docker image needs to be built locally.
+As this demonstration contains specific encoding configurations for FFmpeg for live streaming CMAF, the Docker image needs to be built locally.
 
 This can be done by running the following command in the directory of this demo's Compose file:
 
@@ -29,7 +28,7 @@ Which will create a Docker image called livedemo_ffmpeg with the patch applied.
 
 ## Usage
 
-You need a license key to use this software. To evaluate you can create an account at [Unified Streaming Registration](https://private.unified-streaming.com/register/).
+You need a license key to use this software. To evaluate you can create an account at [Unified Streaming Registration](https://www.unified-streaming.com/licenses/access).
 
 The license key is passed to containers using the *USP_LICENSE_KEY* environment variable.
 
