@@ -1,3 +1,4 @@
+![logo](https://raw.githubusercontent.com/unifiedstreaming/live-demo-cmaf/master/unifiedstreaming-logo-black.png)
 # Unified Streaming Live Origin Demo 
 # DASH-IF Live Media Ingest Protocal - Interface 1 (CMAF)
 
