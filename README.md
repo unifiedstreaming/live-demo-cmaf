@@ -1,6 +1,6 @@
 ![Image](../master/unifiedstreaming-logo-black.jpg?raw=true)
-# Unified Streaming Live Origin Demo 
-# DASH-IF Live Media Ingest Protocal - Interface 1 (CMAF)
+# Unified Streaming Live Origin Demo  
+DASH-IF Live Media Ingest Protocal - Interface 1 (CMAF)
 
 This demonstration shows a [Unified Streaming](http://www.unified-streaming.com/products/unified-origin) Origin setup with a Live publishing point and [FFmpeg](https://ffmpeg.org/) as an encoder to push CMAF a live ingest stream.
 
