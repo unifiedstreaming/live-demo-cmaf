@@ -8,7 +8,7 @@ FFMPEG delivers CMAF tracks to Unified Origin using the [DASH-IF Live Media Inge
 
 The demo consists of two Docker containers which are deployed using Docker Compose.
 
-The default track configuration created is below, however encoding parametes can be updated within the docker-compose.yaml
+The default track configuration created is below, however encoding parameters can be updated within the docker-compose.yaml
 - Video Track 1 - 1280x720 1000k AVC 96GOP@50FPS
 - Video Track 2 - 1024x576 500k AVC 48GOP@25FPS
 - Audio Track 1 - 128kbs 48kHz AAC-LC - English language 

@@ -55,7 +55,7 @@ color=size=${V1_ASPECT_W}x100:color=black[blackbg]; \
 drawtext=text='DASH-IF Live Media Ingest Protocol': fontsize=32: x=(w-text_w)/2: y=75: fontsize=32: fontcolor=white,\
 drawtext=text='Interface 1 - CMAF': fontsize=32: x=(w-text_w)/2: y=125: fontsize=32: fontcolor=white, \
 drawtext=text='%{pts\:gmtime\:${DATE_PART1}\:%Y-%m-%d}%{pts\:hms\:${DATE_MOD_DAYS}.${DATE_PART2}}':\
-fontsize=28: x=(w-tw)/2: y=30: fontcolor=white[v+tc]; \
+fontsize=32: x=(w-tw)/2: y=30: fontcolor=white[v+tc]; \
 [v+tc][1]overlay=eval=init:x=W-15-w:y=15[vid]; \
 [vid]split=2[vid0][vid1]" \
 -map "[vid0]" -s ${V1_ASPECT_W}x${V1_ASPECT_H} -c:v ${V1_CODEC} -b:v ${V1_BITRATE} -profile:v main -preset ultrafast -tune zerolatency \
