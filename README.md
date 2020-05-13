@@ -6,6 +6,8 @@ This project demonstrates the use of [FFmpeg](https://ffmpeg.org/) and [Unified 
 
 FFMPEG delivers CMAF tracks to Unified Origin using the [DASH-IF Live Media Ingest Protocal - Interface 1](https://dashif-documents.azurewebsites.net/Ingest/master/DASH-IF-Ingest.html) 
 
+![Image](../master/cmaf_flow.png?raw=true)
+
 The demo consists of two Docker containers which are deployed using Docker Compose.
 
 The default track configuration created is below, however encoding parameters can be updated within the docker-compose.yaml
