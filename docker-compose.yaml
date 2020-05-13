@@ -17,11 +17,33 @@ services:
   ffmpeg:
     build: ffmpeg
     environment:
-      - FRAME_RATE=25
-      - GOP_LENGTH=48
+      # Video Codec Options: libx264 only
+      # Audio Codec Options: aac only
+      # Video Track 1 Setting (High)
+      - V1_CODEC=libx264
+      - V1_BITRATE=1000k
+      - V1_FRAME_RATE=50
+      - V1_GOP_LENGTH=96
+      - V1_ASPECT_W=1280
+      - V1_ASPECT_H=720
+      # Video Track 2 Setting (Low)
+      - V2_CODEC=libx264
+      - V2_BITRATE=500k
+      - V2_FRAME_RATE=25
+      - V2_GOP_LENGTH=48
+      - V2_ASPECT_W=1024
+      - V2_ASPECT_H=576
+      # Audio Track 1 (High)
+      - A1_CODEC=aac
+      - A1_BITRATE=128k
+      - A1_LANGUAGE=eng
+      # Audio Track 2 (Low)
+      - A2_CODEC=aac
+      - A2_BITRATE=64k
+      - A2_LANGUAGE=dut
+      # Shared Settings
       - AUDIO_FRAG_DUR_MICROS=1920000
       - PUB_POINT_URI=http://live-origin/test/test.isml
-      - LOGO_OVERLAY=
     depends_on:
       live-origin:
         condition: service_healthy

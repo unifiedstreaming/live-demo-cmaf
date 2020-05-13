@@ -12,12 +12,10 @@ else
   export FRAME_SEP=":"
 fi
 
-export LOGO_OVERLAY="${LOGO_OVERLAY-https://raw.githubusercontent.com/unifiedstreaming/live-demo/master/ffmpeg/usp_logo_white.png}"
-
-if [ -n "${LOGO_OVERLAY}" ]; then
-  export LOGO_OVERLAY="-i ${LOGO_OVERLAY}"
-  export OVERLAY_FILTER=", overlay=eval=init:x=W-15-w:y=15"
-fi
+#if [ -n "${LOGO_OVERLAY}" ]; then
+#  export LOGO_OVERLAY="-i ${LOGO_OVERLAY}"
+#  export OVERLAY_FILTER=", overlay=eval=init:x=W-15-w:y=15"
+#fi
 
 # validate required variables are set
 if [ -z "${PUB_POINT_URI}" ]; then
@@ -25,13 +23,19 @@ if [ -z "${PUB_POINT_URI}" ]; then
   exit 1
 fi
 
-timecode=$(date +%H\\:%M\\:%S).00
 PUB_POINT=${PUB_POINT_URI}
+# Python arithmatic to create accurate timing
+VIDEO_ISM_OFFSET=`python3 -c "import time; print(int(time.time() * 10000000))"`
+AUDIO_ISM_OFFSET=`python3 -c "import time; print(int(time.time() * 48000))"`
+DATE_MICRO=`python3 -c "import time; print($VIDEO_ISM_OFFSET / 10000000)"`
+DATE_PART1=`python3 -c "import time; print(repr($DATE_MICRO).split('.')[0])"`
+DATE_PART2=`python3 -c "import time; print(repr($DATE_MICRO).split('.')[1][:3])"`
+DATE_MOD_DAYS=`python3 -c "import time; print((int($DATE_PART1) % 86400))"`
 
 set -x
 exec ffmpeg -re \
 -f lavfi \
--i smptehdbars=size=1280x720 \
+-i smptehdbars=size=${V1_ASPECT_W}x${V1_ASPECT_H}:rate=${V1_FRAME_RATE} \
 -i "https://raw.githubusercontent.com/unifiedstreaming/live-demo/master/ffmpeg/usp_logo_white.png" \
 -filter_complex \
 "sine=frequency=1:beep_factor=480:sample_rate=48000, \
@@ -43,48 +47,52 @@ adelay=1000[a2]; \
 highpass=40, \
 adelay='$(date +%3N)', \
 asplit=3[a1][a2][a3]; \
-[a1]showwaves=mode=p2p:colors=white:size=1280x100:scale=lin:rate=$(($FRAME_RATE))[waves]; \
-color=size=1280x100:color=black[blackbg]; \
+[a1]showwaves=mode=p2p:colors=white:size=${V1_ASPECT_W}x100:scale=lin:rate=$((${V1_FRAME_RATE}))[waves]; \
+color=size=${V1_ASPECT_W}x100:color=black[blackbg]; \
 [blackbg][waves]overlay[waves2]; \
 [0][waves2]overlay=y=620[v]; \
 [v]drawbox=y=25: x=iw/2-iw/7: c=0x00000000@1: w=iw/3.5: h=36: t=fill, \
 drawtext=text='DASH-IF Live Media Ingest Protocol': fontsize=32: x=(w-text_w)/2: y=75: fontsize=32: fontcolor=white,\
 drawtext=text='Interface 1 - CMAF': fontsize=32: x=(w-text_w)/2: y=125: fontsize=32: fontcolor=white, \
-drawtext=timecode_rate=${FRAME_RATE}: timecode='$(date -u +%H\\:%M\\:%S)\\${FRAME_SEP}$(($(date +%3N)/$((1000/$FRAME_RATE))))': tc24hmax=1: fontsize=32: x=(w-tw)/2+tw/2: y=30: fontcolor=white, \
-drawtext=text='%{gmtime\:%Y-%m-%d}\ ': fontsize=32: x=(w-tw)/2-tw/2: y=30: fontcolor=white[v+tc]; \
-[v+tc][1]overlay=eval=init:x=W-15-w:y=15[vid];
+drawtext=text='%{pts\:gmtime\:${DATE_PART1}\:%Y-%m-%d}%{pts\:hms\:${DATE_MOD_DAYS}.${DATE_PART2}}':\
+fontsize=28: x=(w-tw)/2: y=30: fontcolor=white[v+tc]; \
+[v+tc][1]overlay=eval=init:x=W-15-w:y=15[vid]; \
 [vid]split=2[vid0][vid1]" \
--map "[vid0]" -s 1280x720 -c:v libx264 -b:v 1000k -profile:v main -preset ultrafast -tune zerolatency \
--g $GOP_LENGTH \
--r $FRAME_RATE \
--keyint_min $GOP_LENGTH \
+-map "[vid0]" -s ${V1_ASPECT_W}x${V1_ASPECT_H} -c:v ${V1_CODEC} -b:v ${V1_BITRATE} -profile:v main -preset ultrafast -tune zerolatency \
+-g ${V1_GOP_LENGTH} \
+-r ${V1_FRAME_RATE} \
+-keyint_min ${V1_GOP_LENGTH} \
 -fflags +genpts \
 -movflags +frag_keyframe+empty_moov+separate_moof+default_base_moof \
+-write_prft pts \
 -video_track_timescale 10000000 \
--ism_offset $(($(date +%s)*10000000)) \
--f mp4 "$PUB_POINT/Streams(video-720p25-1000k.cmfv)" \
--map "[vid1]" -s 1024x576 -c:v libx264 -b:v 500k -profile:v main -preset ultrafast -tune zerolatency \
--g $GOP_LENGTH \
--r $FRAME_RATE \
--keyint_min $GOP_LENGTH \
+-ism_offset $VIDEO_ISM_OFFSET \
+-f mp4 "${PUB_POINT}/Streams(video-${V1_ASPECT_W}p${V1_FRAME_RATE}-${V1_BITRATE}.cmfv)" \
+-map "[vid1]" -s ${V2_ASPECT_W}x${V2_ASPECT_H} -c:v ${V2_CODEC} -b:v ${V2_BITRATE} -profile:v main -preset ultrafast -tune zerolatency \
+-g ${V2_GOP_LENGTH} \
+-r ${V2_FRAME_RATE} \
+-keyint_min ${V2_GOP_LENGTH} \
 -fflags +genpts \
 -movflags +frag_keyframe+empty_moov+separate_moof+default_base_moof \
+-write_prft pts \
 -video_track_timescale 10000000 \
--ism_offset $(($(date +%s)*10000000)) \
--f mp4 "$PUB_POINT/Streams(video-576p25-500k.cmfv)" \
--map "[a2]" -c:a aac -b:a 64k  -metadata:s:a:0 language=eng \
+-ism_offset $VIDEO_ISM_OFFSET \
+-f mp4 "${PUB_POINT}/Streams(video-${V2_ASPECT_W}p${V2_FRAME_RATE}-${V2_BITRATE}.cmfv)" \
+-map "[a2]" -c:a ${A1_CODEC} -b:a ${A1_BITRATE}  -metadata:s:a:0 language=${A1_LANGUAGE} \
 -fflags +genpts \
 -frag_duration $AUDIO_FRAG_DUR_MICROS \
 -min_frag_duration $AUDIO_FRAG_DUR_MICROS \
 -movflags +empty_moov+separate_moof+default_base_moof \
+-write_prft pts \
 -video_track_timescale 48000 \
--ism_offset $(($(date +%s)*48000)) \
--f mp4  "$PUB_POINT/Streams(audio-aac-64k.cmfa)" \
--map "[a3]" -c:a aac -b:a 128k  -metadata:s:a:0 language=dutch \
+-ism_offset $AUDIO_ISM_OFFSET \
+-f mp4  "$PUB_POINT/Streams(audio-${A1_CODEC}-${A1_BITRATE}.cmfa)" \
+-map "[a3]" -c:a ${A2_CODEC} -b:a ${A2_BITRATE}  -metadata:s:a:0 language=${A2_LANGUAGE} \
 -fflags +genpts \
 -frag_duration $AUDIO_FRAG_DUR_MICROS \
 -min_frag_duration $AUDIO_FRAG_DUR_MICROS \
 -movflags +empty_moov+separate_moof+default_base_moof \
+-write_prft pts \
 -video_track_timescale 48000 \
--ism_offset $(($(date +%s)*48000)) \
--f mp4  "$PUB_POINT/Streams(audio-aac-128k.cmfa)"
+-ism_offset $AUDIO_ISM_OFFSET \
+-f mp4  "$PUB_POINT/Streams(audio-${A2_CODEC}-${A2_BITRATE}.cmfa)" \
