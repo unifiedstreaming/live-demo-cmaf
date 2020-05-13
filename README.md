@@ -1,12 +1,14 @@
 ![Image](../master/unifiedstreaming-logo-black.jpg?raw=true)
 # Unified Streaming Live Origin Demo <br/> DASH-IF Live Media Ingest Protocal - Interface 1 (CMAF)
 
-This demonstration shows a [Unified Streaming](http://www.unified-streaming.com/products/unified-origin) Origin setup with a Live publishing point and [FFmpeg](https://ffmpeg.org/) as an encoder to push CMAF a live ingest stream.
+## Overview
+This project demonstrates the use of [FFmpeg](https://ffmpeg.org/) and [Unified Streaming - Origin Live](http://www.unified-streaming.com/products/unified-origin) to present a Live Adaptive Bitrate presentation. 
+
+FFMPEG delivers CMAF tracks to Unified Origin using the [DASH-IF Live Media Ingest Protocal - Interface 1](https://dashif-documents.azurewebsites.net/Ingest/master/DASH-IF-Ingest.html) 
 
 The demo consists of two Docker containers which are deployed using Docker Compose.
 
-## Overview
-The demo generates the following stream configuration:
+The default track configuration created is below, however encoding parametes can be updated within the docker-compose.yaml
 - Video Track 1 - 1280x720 1000k AVC 96GOP@50FPS
 - Video Track 2 - 1024x576 500k AVC 48GOP@25FPS
 - Audio Track 1 - 128kbs 48kHz AAC-LC - English language 
