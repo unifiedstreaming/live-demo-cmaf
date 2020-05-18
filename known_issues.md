@@ -3,6 +3,7 @@
 * Audio tracks contain no bitrate information (affected both Interface 1/2)
 
 * Subtitle support
+
 Currently FFmpeg is unable to create CMAF complient subtitle tracks. FFmpeg is
 able to generate text based subtitles in an fMP4 container. However these are
 signelled using a codec id "tx3g" which not supported by Unified Origin. 
