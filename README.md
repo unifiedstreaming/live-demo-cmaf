@@ -19,7 +19,7 @@ The default track configuration created is below, however encoding parameters ca
 - Audio Track 1 - 128kbs 48kHz AAC-LC - English language 
 - Audio Track 2 - 64kbs 48kHz AAC-LC - Dutch language
 
-## Disclamer
+## Disclaimer
 Please be aware this demo utilises software which is still in development and it therefore not intended for use in a productions environment. A list of known issues affecting this demo can be tracked [here](known_issues.md).
    
 
