@@ -1,4 +1,4 @@
-![Image](../master/unifiedstreaming-logo-black.jpg?raw=true)
+![Image](unifiedstreaming-logo-black.jpg?raw=true)
 # Unified Streaming Live Origin Demo <br/> DASH-IF Live Media Ingest Protocal - Interface 1 (CMAF)
 
 ## Overview
@@ -83,5 +83,5 @@ ffplay http://localhost/test/test.isml/.m3u8
 
 And it should look something like:
 
-![example](../master/ffmpeg/example_cmaf.png?raw=true)
+![example](./ffmpeg/example_cmaf.png?raw=true)
 
