@@ -1,9 +1,12 @@
-# Known Issues
+## Known Issues
 
 * Audio tracks contain no bitrate information (affected both Interface 1/2)
-* Video tracks contain no bitrate information (affects interface 2 only)
-* CMAF subtitles (not supported in ffmpeg)
-* FFmpeg subtitle Codec ID "tx3g" now supported by Unified Origin
+
+* Subtitle support
+Currently FFmpeg is unable to create CMAF complient subtitle tracks. FFmpeg is
+able to generate text based subtitles in an fMP4 container. However these are
+signelled using a codec id "tx3g" which not supported by Unified Origin. 
+
 * Timed Metadata (unable to generate dynamically/requires external tooling)
 * Unable to compile/run natively on ubuntu (av_interleaved_write_frame(): Broken
   pipe) errors
