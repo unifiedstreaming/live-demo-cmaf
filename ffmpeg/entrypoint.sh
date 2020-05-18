@@ -64,6 +64,7 @@ fontsize=32: x=(w-tw)/2: y=30: fontcolor=white[v+tc]; \
 -keyint_min ${V1_GOP_LENGTH} \
 -fflags +genpts \
 -movflags +frag_keyframe+empty_moov+separate_moof+default_base_moof \
+-global_sidx 1 \
 -write_prft pts \
 -video_track_timescale 10000000 \
 -ism_offset $VIDEO_ISM_OFFSET \
@@ -75,24 +76,27 @@ fontsize=32: x=(w-tw)/2: y=30: fontcolor=white[v+tc]; \
 -fflags +genpts \
 -movflags +frag_keyframe+empty_moov+separate_moof+default_base_moof \
 -write_prft pts \
+-global_sidx 1 \
 -video_track_timescale 10000000 \
 -ism_offset $VIDEO_ISM_OFFSET \
 -f mp4 "${PUB_POINT}/Streams(video-${V2_ASPECT_W}p${V2_FRAME_RATE}-${V2_BITRATE}.cmfv)" \
--map "[a2]" -c:a ${A1_CODEC} -b:a ${A1_BITRATE}  -metadata:s:a:0 language=${A1_LANGUAGE} \
+-map "[a2]" -c:a ${A1_CODEC} -b:v ${A1_BITRATE}  -metadata:s:a:0 language=${A1_LANGUAGE} \
 -fflags +genpts \
 -frag_duration $AUDIO_FRAG_DUR_MICROS \
 -min_frag_duration $AUDIO_FRAG_DUR_MICROS \
 -movflags +empty_moov+separate_moof+default_base_moof \
 -write_prft pts \
+-global_sidx 1 \
 -video_track_timescale 48000 \
 -ism_offset $AUDIO_ISM_OFFSET \
 -f mp4  "$PUB_POINT/Streams(audio-${A1_CODEC}-${A1_BITRATE}.cmfa)" \
--map "[a3]" -c:a ${A2_CODEC} -b:a ${A2_BITRATE}  -metadata:s:a:0 language=${A2_LANGUAGE} \
+-map "[a3]" -c:a ${A2_CODEC} -b:v ${A2_BITRATE}  -metadata:s:a:0 language=${A2_LANGUAGE} \
 -fflags +genpts \
 -frag_duration $AUDIO_FRAG_DUR_MICROS \
 -min_frag_duration $AUDIO_FRAG_DUR_MICROS \
 -movflags +empty_moov+separate_moof+default_base_moof \
 -write_prft pts \
+-global_sidx 1 \
 -video_track_timescale 48000 \
 -ism_offset $AUDIO_ISM_OFFSET \
 -f mp4  "$PUB_POINT/Streams(audio-${A2_CODEC}-${A2_BITRATE}.cmfa)" \
