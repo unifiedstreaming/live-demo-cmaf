@@ -83,5 +83,5 @@ ffplay http://localhost/test/test.isml/.m3u8
 
 And it should look something like:
 
-![example](./ffmpeg/example_cmaf.png?raw=true)
+![example](./ffmpeg/example_cmaf.png?raw=true) 
 
