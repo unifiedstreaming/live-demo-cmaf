@@ -11,7 +11,7 @@ ENV     X264_VERSION=20160826-2245-stable \
         PKG_CONFIG_PATH=/usr/local/lib/pkgconfig \
         SRC=/usr/local
 
-COPY    ism_movenc.patch /root/ism_movenc.patch
+COPY    ism_offset-and-audio_track_timescale.patch /root/ism_offset-and-audio_track_timescale.patch
 
 RUN     buildDeps="autoconf \
                    automake \
@@ -53,8 +53,8 @@ RUN     buildDeps="autoconf \
 ## ffmpeg source from github
 RUN     DIR=$(mktemp -d) && cd ${DIR} && \
         git clone https://github.com/FFmpeg/FFmpeg.git . && \
-        cp /root/ism_movenc.patch . && \
-        git apply ism_movenc.patch && \
+        cp /root/ism_offset-and-audio_track_timescale.patch . && \
+        git apply ism_offset-and-audio_track_timescale.patch && \
         ./configure --prefix="${SRC}" \
         --extra-cflags="-I${SRC}/include" \
         --extra-ldflags="-L${SRC}/lib" \
@@ -86,6 +86,8 @@ RUN     DIR=$(mktemp -d) && cd ${DIR} && \
         ffmpeg -buildconf
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY entrypoint.py /usr/local/bin/entrypoint.py
 RUN chmod +x /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.py
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
