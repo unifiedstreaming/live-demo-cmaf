@@ -1,0 +1,25 @@
+From 53e426885fcc098401e4d1e3e10bb80167c896d8 Mon Sep 17 00:00:00 2001
+From: Mark Ogle <mark@unified-streaming.com>
+Date: Thu, 11 Jun 2020 12:59:37 +0200
+Subject: [PATCH] set avg bitrate to target bitrate if 0
+
+---
+ libavformat/movenc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libavformat/movenc.c b/libavformat/movenc.c
+index efdd608038..d5c4484ac5 100644
+--- a/libavformat/movenc.c
++++ b/libavformat/movenc.c
+@@ -676,7 +676,7 @@ static int mov_write_esds_tag(AVIOContext *pb, MOVTrack *track) // Basic
+ 
+     avio_wb24(pb, props ? props->buffer_size / 8 : 0); // Buffersize DB
+ 
+-    avg_bitrate = compute_avg_bitrate(track);
++    avg_bitrate = compute_avg_bitrate(track) ? compute_avg_bitrate(track) : track->par->bit_rate;
+     avio_wb32(pb, props ? FFMAX3(props->max_bitrate, props->avg_bitrate, avg_bitrate) : FFMAX(track->par->bit_rate, avg_bitrate)); // maxbitrate (FIXME should be max rate in any 1 sec window)
+     avio_wb32(pb, avg_bitrate);
+ 
+-- 
+2.24.1 (Apple Git-126)
+
