@@ -1,36 +1,26 @@
-From d511edfd955a8cef00faba025a68254ee665fb91 Mon Sep 17 00:00:00 2001
+From 4fbda4254936c30cac88125af999cc9449a9af5c Mon Sep 17 00:00:00 2001
 From: Mark Ogle <mark@unified-streaming.com>
-Date: Wed, 10 Jun 2020 17:17:55 +0200
-Subject: [PATCH] ism_offset and audio_track_timescale
+Date: Thu, 18 Jun 2020 12:17:10 +0200
+Subject: [PATCH 2/4] add audio_track_timescale option
 
 ---
- libavformat/movenc.c | 11 ++++++++++-
- libavformat/movenc.h |  2 ++
- 2 files changed, 12 insertions(+), 1 deletion(-)
+ libavformat/movenc.c | 15 ++++++++++++---
+ libavformat/movenc.h |  1 +
+ 2 files changed, 13 insertions(+), 3 deletions(-)
 
 diff --git a/libavformat/movenc.c b/libavformat/movenc.c
-index 5d8dc4fd5d..efdd608038 100644
+index 5ffb7619ec..8925475b19 100644
 --- a/libavformat/movenc.c
 +++ b/libavformat/movenc.c
-@@ -92,7 +92,9 @@ static const AVOption options[] = {
-     { "min_frag_duration", "Minimum fragment duration", offsetof(MOVMuxContext, min_fragment_duration), AV_OPT_TYPE_INT, {.i64 = 0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
-     { "frag_size", "Maximum fragment size", offsetof(MOVMuxContext, max_fragment_size), AV_OPT_TYPE_INT, {.i64 = 0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
+@@ -94,6 +94,7 @@ static const AVOption options[] = {
      { "ism_lookahead", "Number of lookahead entries for ISM files", offsetof(MOVMuxContext, ism_lookahead), AV_OPT_TYPE_INT, {.i64 = 0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
-+    { "ism_offset", "Offset to the ISM fragment start times", offsetof(MOVMuxContext, ism_offset), AV_OPT_TYPE_INT64, {.i64 = 0}, 0, INT64_MAX, AV_OPT_FLAG_ENCODING_PARAM},
+     { "ism_offset", "Offset to the ISM fragment start times", offsetof(MOVMuxContext, ism_offset), AV_OPT_TYPE_INT64, {.i64 = 0}, 0, INT64_MAX, AV_OPT_FLAG_ENCODING_PARAM},
      { "video_track_timescale", "set timescale of all video tracks", offsetof(MOVMuxContext, video_track_timescale), AV_OPT_TYPE_INT, {.i64 = 0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
 +    { "audio_track_timescale", "set timescale of all audio tracks", offsetof(MOVMuxContext, audio_track_timescale), AV_OPT_TYPE_INT, {.i64 = 0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM },
      { "brand",    "Override major brand", offsetof(MOVMuxContext, major_brand),   AV_OPT_TYPE_STRING, {.str = NULL}, .flags = AV_OPT_FLAG_ENCODING_PARAM },
      { "use_editlist", "use edit list", offsetof(MOVMuxContext, use_editlist), AV_OPT_TYPE_BOOL, {.i64 = -1}, -1, 1, AV_OPT_FLAG_ENCODING_PARAM},
      { "fragment_index", "Fragment number of the next fragment", offsetof(MOVMuxContext, fragments), AV_OPT_TYPE_INT, {.i64 = 1}, 1, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
-@@ -6444,6 +6446,7 @@ static int mov_init(AVFormatContext *s)
-          * this is updated. */
-         track->hint_track = -1;
-         track->start_dts  = AV_NOPTS_VALUE;
-+        track->frag_start += mov->ism_offset;
-         track->start_cts  = AV_NOPTS_VALUE;
-         track->end_pts    = AV_NOPTS_VALUE;
-         track->dts_shift  = AV_NOPTS_VALUE;
-@@ -6502,7 +6505,13 @@ static int mov_init(AVFormatContext *s)
+@@ -6504,7 +6505,13 @@ static int mov_init(AVFormatContext *s)
                  return AVERROR_PATCHWELCOME;
              }
          } else if (st->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
@@ -45,15 +35,24 @@ index 5d8dc4fd5d..efdd608038 100644
              if (!st->codecpar->frame_size && !av_get_bits_per_sample(st->codecpar->codec_id)) {
                  av_log(s, AV_LOG_WARNING, "track %d: codec frame size is not set\n", i);
                  track->audio_vbr = 1;
+@@ -6565,8 +6572,10 @@ static int mov_init(AVFormatContext *s)
+            doesn't mandate a track timescale of 10,000,000. The muxer allows a custom timescale
+            for video tracks, so if user-set, it isn't overwritten */
+         if (mov->mode == MODE_ISM &&
+-            (st->codecpar->codec_type != AVMEDIA_TYPE_VIDEO ||
+-            (st->codecpar->codec_type == AVMEDIA_TYPE_VIDEO && !mov->video_track_timescale))) {
++            ((st->codecpar->codec_type != AVMEDIA_TYPE_AUDIO && 
++              st->codecpar->codec_type != AVMEDIA_TYPE_VIDEO) ||
++             (st->codecpar->codec_type == AVMEDIA_TYPE_AUDIO && !mov->audio_track_timescale) ||
++             (st->codecpar->codec_type == AVMEDIA_TYPE_VIDEO && !mov->video_track_timescale))) {
+              track->timescale = 10000000;
+         }
+ 
 diff --git a/libavformat/movenc.h b/libavformat/movenc.h
-index 997b2d61c0..4a505800cd 100644
+index ebeddb6f0d..4a505800cd 100644
 --- a/libavformat/movenc.h
 +++ b/libavformat/movenc.h
-@@ -203,9 +203,11 @@ typedef struct MOVMuxContext {
-     int max_fragment_size;
-     int ism_lookahead;
-     AVIOContext *mdat_buf;
-+    int64_t ism_offset;
+@@ -207,6 +207,7 @@ typedef struct MOVMuxContext {
      int first_trun;
  
      int video_track_timescale;

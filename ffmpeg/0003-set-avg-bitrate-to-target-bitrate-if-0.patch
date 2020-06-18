@@ -1,14 +1,14 @@
-From 53e426885fcc098401e4d1e3e10bb80167c896d8 Mon Sep 17 00:00:00 2001
+From e9eb9c19b273051407afaeb896979f15aa93e161 Mon Sep 17 00:00:00 2001
 From: Mark Ogle <mark@unified-streaming.com>
 Date: Thu, 11 Jun 2020 12:59:37 +0200
-Subject: [PATCH] set avg bitrate to target bitrate if 0
+Subject: [PATCH 3/4] set avg bitrate to target bitrate if 0
 
 ---
  libavformat/movenc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/libavformat/movenc.c b/libavformat/movenc.c
-index efdd608038..d5c4484ac5 100644
+index 8925475b19..7cee522eac 100644
 --- a/libavformat/movenc.c
 +++ b/libavformat/movenc.c
 @@ -676,7 +676,7 @@ static int mov_write_esds_tag(AVIOContext *pb, MOVTrack *track) // Basic

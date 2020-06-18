@@ -47,16 +47,13 @@ RUN     buildDeps="autoconf \
         make install && \
         rm -rf ${DIR}
 
-COPY    ism_offset-and-audio_track_timescale.patch /root/ism_offset-and-audio_track_timescale.patch
-COPY    set-avg-bitrate-to-target-bitrate-if-0.patch /root/set-avg-bitrate-to-target-bitrate-if-0.patch
+COPY    *.patch /root/
 
 ## ffmpeg source from github
 RUN     DIR=$(mktemp -d) && cd ${DIR} && \
         git clone https://github.com/FFmpeg/FFmpeg.git . && \
-        cp /root/ism_offset-and-audio_track_timescale.patch . && \
-        git apply ism_offset-and-audio_track_timescale.patch && \
-        cp /root/set-avg-bitrate-to-target-bitrate-if-0.patch . && \
-        git apply set-avg-bitrate-to-target-bitrate-if-0.patch && \
+        cp /root/*.patch . && \
+        git apply *.patch && \
         ./configure --prefix="${SRC}" \
         --extra-cflags="-I${SRC}/include" \
         --extra-ldflags="-L${SRC}/lib" \
