@@ -1,12 +1,12 @@
-version: "2.1"
+version: "2.3"
 services:
   live-origin:
     image: unifiedstreaming/live:latest
     ports:
       - 80:80
     environment:
-      - USP_LICENSE_KEY
-      - CHANNEL=test
+      - USP_LICENSE_KEY=${USP_LICENSE_KEY:?err}
+      - CHANNEL=${CHANNEL:-test}
       - LOG_LEVEL=warn
       - PUB_POINT_OPTS=--archiving=1 --archive_length=3600 --archive_segment_length=1800 --dvr_window_length=30 --restart_on_encoder_reconnect --mpd.min_buffer_time=48/25 --mpd.suggested_presentation_delay=48/25 --hls.minimum_fragment_length=48/25 --mpd.minimum_fragment_length=48/25 --mpd.segment_template=time --hls.client_manifest_version=4
     healthcheck:
@@ -14,19 +14,20 @@ services:
       interval: 2s
       timeout: 5s
       retries: 30
-  ffmpeg-1:
+      start_period: 5s
+  ffmpeg:
     build: ffmpeg
     environment:
-      - PUB_POINT_URI=http://live-origin/test/test.isml
+      - PUB_POINT_URI=http://live-origin/${CHANNEL:-test}/${CHANNEL:-test}.isml
       - 'TRACKS={ "video": [ { "width": 1280, "height": 720, "bitrate": "700k", "codec": "libx264", "framerate": 25, "gop": 24, "timescale": 50 }, { "width": 1920, "height": 1080, "bitrate": "1000k", "codec": "libx264", "framerate": 50, "gop": 48, "timescale": 50 } ], "audio": [ { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "eng", "timescale": 48000 }, { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "nld", "timescale": 48000 } ] }'
     depends_on:
       live-origin:
         condition: service_healthy
-  ffmpeg-2:
-    build: ffmpeg
+  fmp4ingest: 
+    build: fmp4ingest
     environment:
-      - PUB_POINT_URI=http://live-origin/test/test.isml
-      - 'TRACKS={ "video": [ { "width": 1280, "height": 720, "bitrate": "700k", "codec": "libx264", "framerate": 25, "gop": 24, "timescale": 50 }, { "width": 1920, "height": 1080, "bitrate": "1000k", "codec": "libx264", "framerate": 50, "gop": 48, "timescale": 50 } ], "audio": [ { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "eng", "timescale": 48000 }, { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "nld", "timescale": 48000 } ] }'
+      - PUB_POINT_URI=http://live-origin/${CHANNEL:-test}/${CHANNEL:-test}.isml
+      - AVAIL=--avail 28800 9600
     depends_on:
       live-origin:
         condition: service_healthy
