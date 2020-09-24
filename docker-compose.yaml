@@ -5,10 +5,10 @@ services:
     ports:
       - 80:80
     environment:
-      - USP_LICENSE_KEY=${USP_LICENSE_KEY:?err}
+      - USP_LICENSE_KEY
       - CHANNEL=${CHANNEL:-test}
       - LOG_LEVEL=warn
-      - PUB_POINT_OPTS=--archiving=1 --archive_length=3600 --archive_segment_length=1800 --dvr_window_length=30 --restart_on_encoder_reconnect --mpd.min_buffer_time=48/25 --mpd.suggested_presentation_delay=48/25 --hls.minimum_fragment_length=48/25 --mpd.minimum_fragment_length=48/25 --mpd.segment_template=time --hls.client_manifest_version=4
+      - PUB_POINT_OPTS=--timed_metadata --splice_media --archiving=1 --archive_length=3600 --archive_segment_length=1800 --dvr_window_length=30 --restart_on_encoder_reconnect --hls.client_manifest_version=4 --hls.minimum_fragment_length=144/25 --mpd.minimum_fragment_length=48/25 --mpd.segment_template=time --iss.minimum_fragment_length=48/25 --iss.client_manifest_version=22
     healthcheck:
       test: kill -0 1
       interval: 2s
@@ -27,7 +27,10 @@ services:
     build: fmp4ingest
     environment:
       - PUB_POINT_URI=http://live-origin/${CHANNEL:-test}/${CHANNEL:-test}.isml
-      - AVAIL=--avail 28800 9600
+      - INTEGER_MULTIPLE_GOP=24
+      - CMD_ARGS=-r --wc_offset --ism_offset $${ism_offset}
+      - AVAIL_INTERVAL=28800
+      - AVAIL_LENGTH=9600
     depends_on:
       live-origin:
         condition: service_healthy

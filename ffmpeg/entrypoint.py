@@ -7,7 +7,7 @@ import logging
 import os
 import subprocess
 from collections.abc import Iterable
-from datetime import datetime
+from datetime import datetime, timezone
 from fractions import Fraction
 
 
@@ -111,9 +111,9 @@ max_height = max([x["height"] for x in tracks["video"]])
 # floor to gop length based offset from epoch
 gop = Fraction(Fraction(tracks["video"][0]["gop"]), Fraction(tracks["video"][0]["framerate"]))
 now = Fraction(
-        int(Fraction(Fraction(datetime.now().timestamp()), gop)),
+        int(Fraction(Fraction(datetime.utcnow().timestamp()), gop)),
         1/gop)
-
+        
 now_seconds = int(now)
 now_micro = int(now % 1 * 1000000)
 

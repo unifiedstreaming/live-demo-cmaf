@@ -11,7 +11,7 @@ diff --git a/libavformat/movenc.c b/libavformat/movenc.c
 index 7cee522eac..7e9a8a8899 100644
 --- a/libavformat/movenc.c
 +++ b/libavformat/movenc.c
-@@ -2557,6 +2557,10 @@ static int mov_write_stbl_tag(AVFormatContext *s, AVIOContext *pb, MOVMuxContext
+@@ -2635,6 +2635,10 @@ static int mov_write_stbl_tag(AVFormatContext *s, AVIOContext *pb, MOVMuxContext
           track->par->codec_tag == MKTAG('r','t','p',' ')) &&
          track->has_keyframes && track->has_keyframes < track->entry)
          mov_write_stss_tag(pb, track, MOV_SYNC_SAMPLE);

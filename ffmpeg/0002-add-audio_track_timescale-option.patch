@@ -20,7 +20,7 @@ index 5ffb7619ec..8925475b19 100644
      { "brand",    "Override major brand", offsetof(MOVMuxContext, major_brand),   AV_OPT_TYPE_STRING, {.str = NULL}, .flags = AV_OPT_FLAG_ENCODING_PARAM },
      { "use_editlist", "use edit list", offsetof(MOVMuxContext, use_editlist), AV_OPT_TYPE_BOOL, {.i64 = -1}, -1, 1, AV_OPT_FLAG_ENCODING_PARAM},
      { "fragment_index", "Fragment number of the next fragment", offsetof(MOVMuxContext, fragments), AV_OPT_TYPE_INT, {.i64 = 1}, 1, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
-@@ -6504,7 +6505,13 @@ static int mov_init(AVFormatContext *s)
+@@ -6606,7 +6607,13 @@ static int mov_init(AVFormatContext *s)
                  return AVERROR_PATCHWELCOME;
              }
          } else if (st->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
@@ -35,7 +35,7 @@ index 5ffb7619ec..8925475b19 100644
              if (!st->codecpar->frame_size && !av_get_bits_per_sample(st->codecpar->codec_id)) {
                  av_log(s, AV_LOG_WARNING, "track %d: codec frame size is not set\n", i);
                  track->audio_vbr = 1;
-@@ -6565,8 +6572,10 @@ static int mov_init(AVFormatContext *s)
+@@ -6667,8 +6674,10 @@ static int mov_init(AVFormatContext *s)
             doesn't mandate a track timescale of 10,000,000. The muxer allows a custom timescale
             for video tracks, so if user-set, it isn't overwritten */
          if (mov->mode == MODE_ISM &&
