@@ -3,10 +3,11 @@
 # https://hub.docker.com/r/jrottenberg/ffmpeg/
 #
 #
-FROM    alpine:3.4
+FROM    alpine:3.11
 
 
 ENV     X264_VERSION=20160826-2245-stable \
+        X265_VERSION=x265_2.8 \
         PKG_CONFIG_PATH=/usr/local/lib/pkgconfig \
         SRC=/usr/local
 
@@ -28,6 +29,7 @@ RUN     buildDeps="autoconf \
                    openssl-dev \
                    tar \
                    yasm \
+                   python3 \
                    zlib-dev" && \
         export MAKEFLAGS="-j$(($(grep -c ^processor /proc/cpuinfo) + 1))" && \
         apk add --update ${buildDeps} freetype-dev fontconfig-dev ttf-droid libgcc libstdc++ ca-certificates && \
@@ -36,6 +38,14 @@ RUN     buildDeps="autoconf \
         tar -jx --strip-components=1 && \
         ./configure --prefix="${SRC}" --bindir="${SRC}/bin" --enable-pic --enable-shared --disable-cli && \
         make && \
+        make install && \
+        rm -rf ${DIR} && \
+        # x265 http://www.videolan.org/developers/x265.html 
+        DIR=$(mktemp -d) && cd ${DIR} && \
+        curl -sL https://download.videolan.org/pub/videolan/x265/${X265_VERSION}.tar.gz | \
+        tar -zx --strip-components=1 && \
+        cd build && cmake ../source && \
+        make -j$(nproc) && \
         make install && \
         rm -rf ${DIR}
 
@@ -56,6 +66,7 @@ RUN     DIR=$(mktemp -d) && cd ${DIR} && \
         --extra-libs=-ldl \
         --enable-version3 \
         --enable-libx264 \
+        --enable-libx265 \
         --enable-libfontconfig \
         --enable-libfreetype \
         --enable-gpl \

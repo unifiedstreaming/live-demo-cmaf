@@ -1,16 +1,25 @@
-# Unified Streaming Live Origin Demo 
-# DASH-IF Live Media Ingest Protocal - Interface 1 (CMAF)
+![Image](unifiedstreaming-logo-black.jpg?raw=true)
+# Unified Streaming Live Origin Demo <br/> DASH-IF Live Media Ingest Protocal - Interface 1 (CMAF)
 
-This demonstration shows a [Unified Streaming](http://www.unified-streaming.com/products/unified-origin) Origin setup with a Live publishing point and [FFmpeg](https://ffmpeg.org/) as an encoder to push CMAF a live ingest stream.
+## Overview
+This project demonstrates the use of [FFmpeg](https://ffmpeg.org/) and [Unified Streaming - Origin Live](http://www.unified-streaming.com/products/unified-origin) to present a Live Adaptive Bitrate presentation. 
+
+FFMPEG delivers CMAF tracks to Unified Origin using the [DASH-IF Live Media Ingest Protocal - Interface 1](https://dashif-documents.azurewebsites.net/Ingest/master/DASH-IF-Ingest.html) 
+
+For more information about Unified Origin or you have any questions please visit see our [Documentation](http://docs.unified-streaming.com/) or contact us at [support@unified-streaming.com](mailto:support@unified-streaming.com?subject=[GitHub]%20CMAF%20Ingest%20Live%20Demo).
+![Image](../master/cmaf_flow.png?raw=true)
 
 The demo consists of two Docker containers which are deployed using Docker Compose.
 
-## Overview
-The demo generates the following stream configuration:
-- Video Track 1 - 1280x720 1000k AVC 48GOP@25FPS
+The default track configuration created is below, however encoding parameters can be updated within the [docker-compose.yaml](docker-compose.yaml).
+- Video Track 1 - 1280x720 1000k AVC 96GOP@50FPS
 - Video Track 2 - 1024x576 500k AVC 48GOP@25FPS
-- Audio Track 1 - 64kbs 48kHz AAC-LC - English language 
-- Audio Track 2 - 128kbs 48kHz AAC-LC - Dutch language
+- Audio Track 1 - 128kbs 48kHz AAC-LC - English language 
+- Audio Track 2 - 64kbs 48kHz AAC-LC - Dutch language
+
+## Disclaimer
+This demo utilises software which is still in development and is therefore not intended for production use. A list of known issues affecting this demo can be tracked [here](https://github.com/unifiedstreaming/live-demo-cmaf/issues).
+   
 
 ## Setup
 
@@ -74,5 +83,5 @@ ffplay http://localhost/test/test.isml/.m3u8
 
 And it should look something like:
 
-![example](https://raw.githubusercontent.com/RufaelDev/live-demo/cmaf_ingest/ffmpeg/example_cmaf.png)
+![example](./ffmpeg/example_cmaf.png?raw=true) 
 
