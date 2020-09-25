@@ -155,11 +155,18 @@ filter_complex = f"""
     x=(w-tw)/2:
     y=30,
 drawtext=
+    text='DASH-IF Live Media Ingest Protocol':
+    fontsize=32:
+    x=(w-text_w)/2:
+    y=75:
+    fontsize=32:
+    fontcolor=white,
+drawtext=
     fontcolor=white:
     fontsize=20:
-    text='{hostname}':
-    x=w-tw-30:
-    y=30
+    text='Dual Encoder Sync - Active ContainerID {hostname}':
+    x=(w-text_w)/2:
+    y=125
     [v];
 sine=frequency=1:beep_factor=480:sample_rate=48000,
 atempo=1,
