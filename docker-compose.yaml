@@ -35,7 +35,7 @@ services:
       - V2_ASPECT_H=576
       # Audio Track 1 (High)
       - A1_CODEC=aac
-      - A1_BITRATE=128k
+      - A1_BITRATE=64k
       - A1_LANGUAGE=eng
       # Audio Track 2 (Low)
       - A2_CODEC=aac
