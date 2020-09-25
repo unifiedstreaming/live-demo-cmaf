@@ -30,9 +30,9 @@ services:
       - INTEGER_MULTIPLE_GOP_LENGTH=24
       - AVAIL_INTERVAL=28800
       - AVAIL_LENGTH=9600
-#     - CMFT=blib-blob-wvtt.cmft
-#   volumes:
-#     - ./media:/media/:ro
+      - CMFT=blib-blob-wvtt.cmft
+    volumes:
+      - ./media:/media/:ro
     depends_on:
       live-origin:
         condition: service_healthy
