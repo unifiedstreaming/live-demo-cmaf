@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Unified Streaming Platform (version=1.10.27-22256) -->
+<tt
+  xmlns="http://www.w3.org/ns/ttml"
+  xmlns:ttm="http://www.w3.org/ns/ttml#metadata"
+  xmlns:tts="http://www.w3.org/ns/ttml#styling"
+  xml:lang="en">
+  <head>
+    <metadata>
+      <ttm:title></ttm:title>
+      <ttm:desc></ttm:desc>
+      <ttm:copyright></ttm:copyright>
+    </metadata>
+    <styling>
+      <style
+        xml:id="basic"
+        tts:backgroundColor="transparent"
+        tts:color="white"
+        tts:fontFamily="proportionalSansSerif"
+        tts:fontSize="16px"
+        tts:textAlign="center" />
+    </styling>
+    <layout>
+      <region
+        style="basic"
+        xml:id="speaker"
+        tts:displayAlign="center"
+        tts:extent="80% 10%"
+        tts:origin="10% 85%" />
+    </layout>
+  </head>
+  <body>
+    <div
+      xml:lang="en">
+      <p
+        begin="00:00:00.960"
+        end="00:00:01.920"
+        region="speaker">BLOB!</p>
+      <p
+        begin="00:00:02.880"
+        end="00:00:03.840"
+        region="speaker">BLOB!</p>
+    </div>
+  </body>
+</tt>
