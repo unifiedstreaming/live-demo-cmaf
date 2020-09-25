@@ -74,7 +74,7 @@ DEFAULT_TRACKS = {
             "samplerate": 48000,
             "bitrate": "64k",
             "codec": "aac",
-            "language": "en",
+            "language": "eng",
             "timescale": 48000
         }
     ]
