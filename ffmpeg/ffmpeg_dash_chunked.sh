@@ -62,7 +62,7 @@ fontsize=32: x=(w-tw)/2: y=30: fontcolor=white[v+tc]; \
 [vid]split=2[vid0][vid1]" \
 -map "[vid0]" -s:v:0 1280x720 -c:v libx264 -b:v:0 1000k -profile:v main -preset ultrafast -tune zerolatency \
 -map "[vid1]" -s:v:1 1024x576 -c:v libx264 -b:v:1 500k -profile:v main -preset ultrafast -tune zerolatency \
--map "[a2]" -c:a aac -ab:a:0 128k -metadata:s:a:0 language=eng \
+-map "[a2]" -c:a aac -ab:a:0 64k -metadata:s:a:0 language=eng \
 -map "[a3]" -c:a aac -ab:a:1 64k -metadata:s:a:0 language=dut \
 -g $GOP_LENGTH \
 -r $FRAME_RATE \
