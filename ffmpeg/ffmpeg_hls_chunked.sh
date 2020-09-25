@@ -48,7 +48,7 @@ adelay=1000[a2]; \
 [a1][a2]amix, \
 highpass=40, \
 adelay='$(date +%3N)', \
-asplit=2[a1][a2]; \
+asplit=3[a1][a2][a3]; \
 [a1]showwaves=mode=p2p:colors=white:size=1280x100:scale=lin:rate=$(($FRAME_RATE))[waves]; \
 color=size=1280x100:color=black[blackbg]; \
 [blackbg][waves]overlay[waves2]; \
@@ -58,8 +58,9 @@ drawtext=text='DASH-IF Live Media Ingest Protocol': fontsize=32: x=(w-text_w)/2:
 drawtext=text='Interface 2 - HLS': fontsize=32: x=(w-text_w)/2: y=125: fontsize=32: fontcolor=white, \
 drawtext=text='%{pts\:gmtime\:${DATE_PART1}\:%Y-%m-%d}%{pts\:hms\:${DATE_MOD_DAYS}.${DATE_PART2}}':\
 fontsize=32: x=(w-tw)/2: y=30: fontcolor=white[v+tc]; \
-[v+tc][1]overlay=eval=init:x=W-15-w:y=15[vid]" \
--map "[vid]" -s 1280x720 -c:v libx264 -b:v 500k -profile:v main -preset ultrafast -tune zerolatency \
+[v+tc][1]overlay=eval=init:x=W-15-w:y=15[vid];\
+[vid]split=2[vid0][vid1]" \
+-map "[vid0]" -s:v:0 1280x720 -c:v libx264 -b:v 1000k -profile:v main -preset ultrafast -tune zerolatency \
 -g $GOP_LENGTH \
 -r $FRAME_RATE \
 -keyint_min $GOP_LENGTH \
@@ -72,7 +73,7 @@ fontsize=32: x=(w-tw)/2: y=30: fontcolor=white[v+tc]; \
 -hls_time 48/25 \
 -hls_segment_type fmp4 \
 -f hls "$PUB_POINT/Streams(test-stream1.m3u8)" \
--map "[a2]" -c:a aac -ab:a 64k -metadata:s:a:0 language=eng \
+-map "[a2]" -c:a aac -ab:a 128k -metadata:s:a:0 language=eng \
 -fflags +genpts \
 -hls_fmp4_init_filename init-stream2.m4s \
 -hls_segment_filename "$PUB_POINT/test-stream2.%03d.m4s" \
@@ -81,4 +82,27 @@ fontsize=32: x=(w-tw)/2: y=30: fontcolor=white[v+tc]; \
 -hls_flags delete_segments \
 -hls_time 48/25 \
 -hls_segment_type fmp4 \
--f hls "$PUB_POINT/Streams(test-stream2.m3u8)"
+-f hls "$PUB_POINT/Streams(test-stream2.m3u8)" \
+-map "[vid1]" -s:v 1024x576 -c:v libx264 -b:v 500k -profile:v main -preset ultrafast -tune zerolatency \
+-g $GOP_LENGTH \
+-r $FRAME_RATE \
+-keyint_min $GOP_LENGTH \
+-fflags +genpts \
+-hls_fmp4_init_filename init-stream3.m4s \
+-hls_segment_filename "$PUB_POINT/test-stream3.%03d.m4s" \
+-hls_list_size 1 \
+-hls_delete_threshold 1 \
+-hls_flags delete_segments \
+-hls_time 48/25 \
+-hls_segment_type fmp4 \
+-f hls "$PUB_POINT/Streams(test-stream3.m3u8)" \
+-map "[a3]" -c:a aac -ab:a 64k -metadata:s:a:0 language=dut \
+-fflags +genpts \
+-hls_fmp4_init_filename init-stream4.m4s \
+-hls_segment_filename "$PUB_POINT/test-stream4.%03d.m4s" \
+-hls_list_size 1 \
+-hls_delete_threshold 1 \
+-hls_flags delete_segments \
+-hls_time 48/25 \
+-hls_segment_type fmp4 \
+-f hls "$PUB_POINT/Streams(test-stream4.m3u8)"

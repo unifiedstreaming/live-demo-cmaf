@@ -48,7 +48,7 @@ adelay=1000[a2]; \
 [a1][a2]amix, \
 highpass=40, \
 adelay='$(date +%3N)', \
-asplit=2[a1][a2]; \
+asplit=3[a1][a2][a3]; \
 [a1]showwaves=mode=p2p:colors=white:size=1280x100:scale=lin:rate=$(($FRAME_RATE))[waves]; \
 color=size=1280x100:color=black[blackbg]; \
 [blackbg][waves]overlay[waves2]; \
@@ -58,9 +58,12 @@ drawtext=text='DASH-IF Live Media Ingest Protocol': fontsize=32: x=(w-text_w)/2:
 drawtext=text='Interface 2 - DASH': fontsize=32: x=(w-text_w)/2: y=125: fontsize=32: fontcolor=white, \
 drawtext=text='%{pts\:gmtime\:${DATE_PART1}\:%Y-%m-%d}%{pts\:hms\:${DATE_MOD_DAYS}.${DATE_PART2}}':\
 fontsize=32: x=(w-tw)/2: y=30: fontcolor=white[v+tc]; \
-[v+tc][1]overlay=eval=init:x=W-15-w:y=15[vid]" \
--map "[vid]" -s 1280x720 -c:v libx264 -b:v 500k -profile:v main -preset ultrafast -tune zerolatency \
--map "[a2]" -c:a aac -ab:a 64k -metadata:s:a:0 language=eng \
+[v+tc][1]overlay=eval=init:x=W-15-w:y=15[vid];\
+[vid]split=2[vid0][vid1]" \
+-map "[vid0]" -s:v:0 1280x720 -c:v libx264 -b:v:0 1000k -profile:v main -preset ultrafast -tune zerolatency \
+-map "[vid1]" -s:v:1 1024x576 -c:v libx264 -b:v:1 500k -profile:v main -preset ultrafast -tune zerolatency \
+-map "[a2]" -c:a aac -ab:a:0 128k -metadata:s:a:0 language=eng \
+-map "[a3]" -c:a aac -ab:a:1 64k -metadata:s:a:0 language=dut \
 -g $GOP_LENGTH \
 -r $FRAME_RATE \
 -keyint_min $GOP_LENGTH \
@@ -73,4 +76,4 @@ fontsize=32: x=(w-tw)/2: y=30: fontcolor=white[v+tc]; \
 -mpd_profile dash \
 -single_file 0 \
 -global_sidx 0 \
--f dash "$PUB_POINT/Streams(test.mpd)" 
+-f dash "$PUB_POINT/Streams(test.mpd)"

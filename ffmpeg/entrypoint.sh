@@ -48,29 +48,53 @@ adelay=1000[a2]; \
 [a1][a2]amix, \
 highpass=40, \
 adelay='$(date +%3N)', \
-asplit=2[a1][a2]; \
+asplit=3[a1][a2][a3]; \
 [a1]showwaves=mode=p2p:colors=white:size=1280x100:scale=lin:rate=$(($FRAME_RATE))[waves]; \
 color=size=1280x100:color=black[blackbg]; \
 [blackbg][waves]overlay[waves2]; \
 [0][waves2]overlay=y=620[v]; \
 [v]drawbox=y=25: x=iw/2-iw/7: c=0x00000000@1: w=iw/3.5: h=36: t=fill, \
 drawtext=text='DASH-IF Live Media Ingest Protocol': fontsize=32: x=(w-text_w)/2: y=75: fontsize=32: fontcolor=white,\
-drawtext=text='Interface 2 - DASH': fontsize=32: x=(w-text_w)/2: y=125: fontsize=32: fontcolor=white, \
+drawtext=text='Interface 2 - HLS': fontsize=32: x=(w-text_w)/2: y=125: fontsize=32: fontcolor=white, \
 drawtext=text='%{pts\:gmtime\:${DATE_PART1}\:%Y-%m-%d}%{pts\:hms\:${DATE_MOD_DAYS}.${DATE_PART2}}':\
 fontsize=32: x=(w-tw)/2: y=30: fontcolor=white[v+tc]; \
-[v+tc][1]overlay=eval=init:x=W-15-w:y=15[vid]" \
--map "[vid]" -s 1280x720 -c:v libx264 -b:v 500k -profile:v main -preset ultrafast -tune zerolatency \
--map "[a2]" -c:a aac -ab:a 64k -metadata:s:a:0 language=eng \
+[v+tc][1]overlay=eval=init:x=W-15-w:y=15[vid];\
+[vid]split=2[vid0][vid1]" \
+-map "[vid0]" -s 1280x720 -c:v libx264 -b:v 1000k -profile:v main -preset ultrafast -tune zerolatency \
 -g $GOP_LENGTH \
 -r $FRAME_RATE \
 -keyint_min $GOP_LENGTH \
 -fflags +genpts \
--seg_duration 1.92 \
--use_template 1 \
--use_timeline 1 \
--dash_segment_type mp4 \
--window_size 2 \
--mpd_profile dash \
--single_file 0 \
--global_sidx 0 \
--f dash "$PUB_POINT/Streams(test.mpd)" 
+-hls_flags single_file \
+-hls_list_size 2 \
+-hls_delete_threshold 1 \
+-hls_time 48/25 \
+-hls_segment_type fmp4 \
+-f hls "$PUB_POINT/Streams(test-stream1.m3u8)" \
+-map "[a2]" -c:a aac -ab:a 128k -metadata:s:a:0 language=eng \
+-fflags +genpts \
+-hls_flags single_file \
+-hls_list_size 2 \
+-hls_delete_threshold 1 \
+-hls_time 48/25 \
+-hls_segment_type fmp4 \
+-f hls "$PUB_POINT/Streams(test-stream2.m3u8)" \
+-map "[vid1]" -s 1024x576 -c:v libx264 -b:v 500k -profile:v main -preset ultrafast -tune zerolatency \
+-g $GOP_LENGTH \
+-r $FRAME_RATE \
+-keyint_min $GOP_LENGTH \
+-fflags +genpts \
+-hls_flags single_file \
+-hls_list_size 2 \
+-hls_delete_threshold 1 \
+-hls_time 48/25 \
+-hls_segment_type fmp4 \
+-f hls "$PUB_POINT/Streams(test-stream3.m3u8)" \
+-map "[a3]" -c:a aac -ab:a 64k -metadata:s:a:0 language=dut \
+-fflags +genpts \
+-hls_flags single_file \
+-hls_list_size 2 \
+-hls_delete_threshold 1 \
+-hls_time 48/25 \
+-hls_segment_type fmp4 \
+-f hls "$PUB_POINT/Streams(test-stream4.m3u8)"
