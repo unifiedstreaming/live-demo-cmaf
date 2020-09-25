@@ -16,7 +16,7 @@ The demo consists of two Docker containers which are deployed using Docker Compo
 The default track configuration created is below, however encoding parameters can be updated within each script.
 - Video Track 1 - 1280x720 1000k AVC 48GOP@25FPS
 - Video Track 2 - 1024x576 500k AVC 48GOP@25FPS
-- Audio Track 1 - 128kbs 48kHz AAC-LC - English language 
+- Audio Track 1 - 64kbs 48kHz AAC-LC - English language 
 - Audio Track 2 - 64kbs 48kHz AAC-LC - Dutch language
 
 ## Disclaimer
