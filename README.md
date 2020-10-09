@@ -16,7 +16,7 @@ The 2x ffmpeg containers send synchronised Video / Audio fragments (each 1 sampl
 The default track configuration created is below, however encoding parameters can be updated within the [ffmpeg/entrypoint.py](entrypoint.py).
 - Video Track 1 - 1280x720 1000k AVC 96GOP@50FPS
 - Video Track 2 - 1024x576 500k AVC 48GOP@25FPS
-- Audio Track 1 - 128kbs 48kHz AAC-LC - English language 
+- Audio Track 1 - 64kbs 48kHz AAC-LC - English language 
 - Audio Track 2 - 64kbs 48kHz AAC-LC - Dutch language
 
 ## Disclaimer
