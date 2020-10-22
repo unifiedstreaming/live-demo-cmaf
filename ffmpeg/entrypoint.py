@@ -214,7 +214,7 @@ for video in tracks["video"]:
         "-ism_offset", str(video_offset),
         "-video_track_timescale", str(video["timescale"]),
         ALL_TRACK_OPTS,
-        f"{pub_point_uri}/Streams(video-{video['width']}x{video['height']}-{video['bitrate']})"
+        f"{pub_point_uri}/Streams(video-{video['width']}x{video['height']}-{video['bitrate']}.cmfv)"
     ])
 
 count = 0
@@ -229,7 +229,7 @@ for audio in tracks["audio"]:
         "-ism_offset", str(audio_offset),
         "-audio_track_timescale", str(audio["timescale"]),
         ALL_TRACK_OPTS,
-        f"{pub_point_uri}/Streams(audio-{audio['language']}-{audio['bitrate']})"
+        f"{pub_point_uri}/Streams(audio-{audio['language']}-{audio['bitrate']}.cmfa)"
     ])
 
 logger.info(f"ffmpeg command: {list(flatten(command))}")
