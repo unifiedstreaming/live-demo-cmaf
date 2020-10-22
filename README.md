@@ -38,7 +38,7 @@ This can be done by running the following command in the directory of this demo'
 
 ```bash
 #!/bin/sh
-docker-compose build ffmpeg
+docker-compose build ffmpeg-1 ffmpeg-2
 ```
 
 Which will create a Docker image called livedemo_ffmpeg with the patch applied.
