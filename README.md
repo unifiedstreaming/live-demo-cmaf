@@ -11,7 +11,7 @@ For more information about Unified Origin or you have any questions please visit
 
 The demo consists of multiple Docker containers which are deployed using Docker Compose. 
 
-The 2x ffmpeg containers send synchronised Video / Audio fragments (each 1 sample in duration) to Unified Origin. The timestamp of each fragment is set to a mulitple of the sample duration since epoch (in the relevent timescale).  
+The 2x ffmpeg containers send synchronised Video / Audio fragments (each 1 sample in duration) to Unified Origin. To achieve this, each encoder using its internal systemclock (UTC) as reference stamps the fragment with a decode time/offset based upon the same algorithm (UTC + Time Scale x Sample Duration).
 
 The default track configuration created is below, however encoding parameters can be updated within the [ffmpeg/entrypoint.py](entrypoint.py).
 - Video Track 1 - 1280x720 1000k AVC 96GOP@50FPS
