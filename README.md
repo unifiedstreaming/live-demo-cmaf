@@ -7,11 +7,13 @@ This project demonstrates the use of [FFmpeg](https://ffmpeg.org/) and [Unified 
 FFMPEG delivers CMAF tracks to Unified Origin using the [DASH-IF Live Media Ingest Protocal - Interface 1](https://dashif-documents.azurewebsites.net/Ingest/master/DASH-IF-Ingest.html) 
 
 For more information about Unified Origin or you have any questions please visit see our [Documentation](http://docs.unified-streaming.com/) or contact us at [support@unified-streaming.com](mailto:support@unified-streaming.com?subject=[GitHub]%20CMAF%20Ingest%20Live%20Demo).
-![Image](../master/cmaf_flow.png?raw=true)
+![Image](./cmaf_flow.png?raw=true)
 
-The demo consists of two Docker containers which are deployed using Docker Compose.
+The demo consists of multiple Docker containers which are deployed using Docker Compose. 
 
-The default track configuration created is below, however encoding parameters can be updated within the [docker-compose.yaml](docker-compose.yaml).
+The 2x ffmpeg containers send synchronised Video / Audio fragments (each 1 sample in duration) to Unified Origin. The timestamp of each fragment is set to a mulitple of the sample duration since epoch (in the relevent timescale).  
+
+The default track configuration created is below, however encoding parameters can be updated within the [ffmpeg/entrypoint.py](entrypoint.py).
 - Video Track 1 - 1280x720 1000k AVC 96GOP@50FPS
 - Video Track 2 - 1024x576 500k AVC 48GOP@25FPS
 - Audio Track 1 - 64kbs 48kHz AAC-LC - English language 
@@ -36,7 +38,7 @@ This can be done by running the following command in the directory of this demo'
 
 ```bash
 #!/bin/sh
-docker-compose build ffmpeg
+docker-compose build ffmpeg-1 ffmpeg-2
 ```
 
 Which will create a Docker image called livedemo_ffmpeg with the patch applied.

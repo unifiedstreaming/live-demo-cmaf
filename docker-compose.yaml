@@ -14,36 +14,19 @@ services:
       interval: 2s
       timeout: 5s
       retries: 30
-  ffmpeg:
+  ffmpeg-1:
     build: ffmpeg
     environment:
-      # Video Codec Options: libx264 only
-      # Audio Codec Options: aac only
-      # Video Track 1 Setting (High)
-      - V1_CODEC=libx264
-      - V1_BITRATE=1000k
-      - V1_FRAME_RATE=50
-      - V1_GOP_LENGTH=96
-      - V1_ASPECT_W=1280
-      - V1_ASPECT_H=720
-      # Video Track 2 Setting (Low)
-      - V2_CODEC=libx264
-      - V2_BITRATE=500k
-      - V2_FRAME_RATE=25
-      - V2_GOP_LENGTH=48
-      - V2_ASPECT_W=1024
-      - V2_ASPECT_H=576
-      # Audio Track 1 (High)
-      - A1_CODEC=aac
-      - A1_BITRATE=64k
-      - A1_LANGUAGE=eng
-      # Audio Track 2 (Low)
-      - A2_CODEC=aac
-      - A2_BITRATE=64k
-      - A2_LANGUAGE=dut
-      # Shared Settings
-      - AUDIO_FRAG_DUR_MICROS=1920000
       - PUB_POINT_URI=http://live-origin/test/test.isml
+      - 'TRACKS={ "video": [ { "width": 1024, "height": 576, "bitrate": "500k", "codec": "libx264", "framerate": 25, "gop": 24, "timescale": 50 }, { "width": 1280, "height": 720, "bitrate": "1000k", "codec": "libx264", "framerate": 50, "gop": 48, "timescale": 50 } ], "audio": [ { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "eng", "timescale": 48000 }, { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "dut", "timescale": 48000 } ] }'
+    depends_on:
+      live-origin:
+        condition: service_healthy
+  ffmpeg-2:
+    build: ffmpeg
+    environment:
+      - PUB_POINT_URI=http://live-origin/test/test.isml
+      - 'TRACKS={ "video": [ { "width": 1024, "height": 576, "bitrate": "500k", "codec": "libx264", "framerate": 25, "gop": 24, "timescale": 50 }, { "width": 1280, "height": 720, "bitrate": "1000k", "codec": "libx264", "framerate": 50, "gop": 48, "timescale": 50 } ], "audio": [ { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "eng", "timescale": 48000 }, { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "dut", "timescale": 48000 } ] }'
     depends_on:
       live-origin:
         condition: service_healthy

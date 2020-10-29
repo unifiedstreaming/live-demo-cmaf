@@ -11,8 +11,6 @@ ENV     X264_VERSION=20160826-2245-stable \
         PKG_CONFIG_PATH=/usr/local/lib/pkgconfig \
         SRC=/usr/local
 
-COPY    ism_movenc.patch /root/ism_movenc.patch
-
 RUN     buildDeps="autoconf \
                    automake \
                    bash \
@@ -49,12 +47,13 @@ RUN     buildDeps="autoconf \
         make install && \
         rm -rf ${DIR}
 
+COPY    *.patch /root/
 
 ## ffmpeg source from github
 RUN     DIR=$(mktemp -d) && cd ${DIR} && \
         git clone https://github.com/FFmpeg/FFmpeg.git . && \
-        cp /root/ism_movenc.patch . && \
-        git apply ism_movenc.patch && \
+        cp /root/*.patch . && \
+        git apply *.patch && \
         ./configure --prefix="${SRC}" \
         --extra-cflags="-I${SRC}/include" \
         --extra-ldflags="-L${SRC}/lib" \
@@ -86,6 +85,8 @@ RUN     DIR=$(mktemp -d) && cd ${DIR} && \
         ffmpeg -buildconf
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY entrypoint.py /usr/local/bin/entrypoint.py
 RUN chmod +x /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.py
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
