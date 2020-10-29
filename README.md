@@ -20,7 +20,7 @@ The default track configuration created is below, however encoding parameters ca
 - Audio Track 2 - 64kbs 48kHz AAC-LC - Dutch language
 
 ## Disclaimer
-This demo utilises software which is still in development and is therefore not intended for production use. A list of known issues affecting this demo can be tracked [here](known_issues.md).
+This demo utilises software which is still in development and is therefore not intended for production use. A list of known issues affecting this demo can be tracked [here](https://github.com/unifiedstreaming/live-demo-cmaf/issues).
    
 
 ## Setup
