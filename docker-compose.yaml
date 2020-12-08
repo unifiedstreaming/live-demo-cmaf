@@ -8,7 +8,7 @@ services:
       - USP_LICENSE_KEY
       - CHANNEL=test
       - LOG_LEVEL=warn
-      - PUB_POINT_OPTS=--archiving=1 --archive_length=3600 --archive_segment_length=1800 --dvr_window_length=30 --restart_on_encoder_reconnect --mpd.min_buffer_time=48/25 --mpd.suggested_presentation_delay=48/25 --hls.minimum_fragment_length=48/25 --mpd.minimum_fragment_length=48/25 --mpd.segment_template=time --hls.client_manifest_version=4
+      - PUB_POINT_OPTS=--archiving=1 --archive_length=3600 --archive_segment_length=1800 --dvr_window_length=30 --restart_on_encoder_reconnect --mpd.min_buffer_time=48/25 --mpd.suggested_presentation_delay=48/25 --hls.minimum_fragment_length=48/25 --mpd.minimum_fragment_length=48/25 --mpd.segment_template=time --hls.client_manifest_version=4 --hls.fmp4
     healthcheck:
       test: kill -0 1
       interval: 2s
