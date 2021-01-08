@@ -13,7 +13,9 @@ pipeline {
     stage("docker-compose build ffmpeg") {
       steps {
         container('ubuntu') {
-          sh "docker-compose build ffmpeg-1"
+          'sh apt-get update'
+          'sh sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose'
+          'sh docker-compose build ffmpeg-1'
         }
       }
     }
