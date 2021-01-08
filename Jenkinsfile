@@ -20,7 +20,7 @@ pipeline {
                 curl \
                 gnupg-agent \
                 software-properties-common'
-          sh 'curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -'
+          sh 'curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -'
           sh 'DEBIAN_FRONTEND=noninteractive add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"'
           sh 'apt-get update'
           sh 'DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install \
