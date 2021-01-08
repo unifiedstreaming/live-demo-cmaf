@@ -36,6 +36,7 @@ pipeline {
           sh '/usr/local/bin/docker-compose build ffmpeg-1'
         }
       }
+
     }
-  }
+}
 }
