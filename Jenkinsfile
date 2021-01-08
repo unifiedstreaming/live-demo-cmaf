@@ -30,7 +30,7 @@ pipeline {
           sh 'usermod -aG docker root'
           sh 'curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose'
           sh 'chmod +x /usr/local/bin/docker-compose'
-          sh '/usr/local/bin/docker-compose config'
+          sh '/usr/local/bin/docker-compose build ffmpeg-1'
         }
       }
     }
