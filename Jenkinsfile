@@ -23,7 +23,7 @@ pipeline {
           sh 'curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -'
           sh 'curl -sSL https://get.docker.com/ | sh'
           sh 'usermod -aG docker root'
-          service docker start && docker run hello-world
+          service docker start && docker run -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker hello-world
         }
       }
     }
