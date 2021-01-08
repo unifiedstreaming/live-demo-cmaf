@@ -29,7 +29,7 @@ pipeline {
           //    containerd.io'
           //sh 'export DOCKER_HOST=127.0.0.1'
           sh 'usermod -aG docker root'
-          //sh 'service docker start'
+          sh 'service docker start'
           sh 'docker -D info'
           sh 'curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose'
           sh 'chmod +x /usr/local/bin/docker-compose'
