@@ -21,12 +21,12 @@ pipeline {
                 gnupg-agent \
                 software-properties-common'
           sh 'curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -'
-          sh 'curl -sSL https://get.docker.com/ | sh'
           sh 'apt-get update'
           sh 'DEBIAN_FRONTEND=noninteractive apt-get -y --allow-downgrades --no-install-recommends install \
               docker-ce=5:19.03.9~3-0~ubuntu-focal \
               docker-ce-cli=5:19.03.9~3-0~ubuntu-focal \
               containerd.io'
+          sh 'export DOCKER_HOST=127.0.0.1'
           sh 'usermod -aG docker root'
           sh 'service docker start'
           sh 'docker info'
