@@ -28,7 +28,8 @@ pipeline {
               docker-ce-cli=5:19.03.9~3-0~ubuntu-focal \
               containerd.io'
           sh 'usermod -aG docker root'
-          sh 'service docker start'
+          sh 'systemctl start docker'
+          sh 'systemctl status docker'
           sh 'curl -L "https://github.com/docker/compose/releases/download/1.23.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose'
           sh 'chmod +x /usr/local/bin/docker-compose'
           sh '/usr/local/bin/docker-compose build ffmpeg-1'
