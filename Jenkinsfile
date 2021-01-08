@@ -15,8 +15,6 @@ pipeline {
         container('ubuntu') {
           sh 'apt-get update'
           sh 'DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install \
-                curl \
-                apt-get install \
                 apt-transport-https \
                 ca-certificates \
                 curl \
