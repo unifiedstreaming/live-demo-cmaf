@@ -55,7 +55,7 @@ spec:
                             -c `pwd` \
                             --cache=true \
                             --cache-repo=$DOCKER_REPO/cache \
-                            --destination $DOCKER_REPO/jenkins-ci:latest
+                            --destination $DOCKER_REPO/$BRANCH_NAME:latest
                     '''
                 }
             }
