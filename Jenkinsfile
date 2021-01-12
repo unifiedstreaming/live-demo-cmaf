@@ -39,8 +39,6 @@ pipeline {
         REGISTRY_TOKEN = credentials('gitlab-registry-operations')
         REGISTRY_URL = 'registry.internal.unified-streaming.com'
         DOCKER_REPO = 'registry.internal.unified-streaming.com/operations/demo/live-demo-cmaf'
-        GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-        CHART_REPO = 'http://admin:admin@chartmuseum-chartmuseum.chartmuseum.svc.k8s.unified-streaming.com:8080'
     }
     stages {
         stage('build') {
@@ -50,10 +48,10 @@ pipeline {
                     sh '''
                         /kaniko/executor \
                             -f `pwd`/ffmpeg/Dockerfile \
-                            --destination $DOCKER_REPO/$BRANCH_NAME:latest
+                            --destination $DOCKER_REPO/TEST:latest
                     '''
                 }
             }
         }
-}
+    }
 }
