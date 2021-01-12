@@ -51,7 +51,7 @@ spec:
                     sh '''
                         cd `pwd`/ffmpeg && \
                         /kaniko/executor \
-                            -f `pwd`/cd into Dockerfile \
+                            -f `pwd`/Dockerfile \
                             -c `pwd` \
                             --cache=true \
                             --cache-repo=$DOCKER_REPO/cache \
