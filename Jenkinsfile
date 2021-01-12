@@ -50,7 +50,7 @@ spec:
                     sh 'echo "{\\"auths\\":{\\"$REGISTRY_URL\\":{\\"username\\":\\"$REGISTRY_TOKEN_USR\\",\\"password\\":\\"$REGISTRY_TOKEN_PSW\\"}}}" > /kaniko/.docker/config.json'
                     sh '''
                         /kaniko/executor \
-                            -f `pwd`ffmpeg/Dockerfile \
+                            -f `pwd`/ffmpeg/Dockerfile \
                             -c `pwd` \
                             --cache=true \
                             --cache-repo=$DOCKER_REPO/cache \
