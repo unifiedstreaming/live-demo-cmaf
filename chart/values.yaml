@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: https://github.com/unifiedstreaming/live-demo-cmaf/tree/master/ffmpeg/
+  repository: needs to be github or docker hub container registry url
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
