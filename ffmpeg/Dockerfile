@@ -53,8 +53,10 @@ RUN     buildDeps="autoconf \
 COPY    *.patch /root/
 
 ## ffmpeg source from github
+# checkout working commit ca21cb1e36ccae2ee71d4299d477fa9284c1f551 from 12/01/2021
 RUN     DIR=$(mktemp -d) && cd ${DIR} && \
         git clone https://github.com/FFmpeg/FFmpeg.git . && \
+        git checkout --detach ca21cb1e36ccae2ee71d4299d477fa9284c1f551 && \
         cp /root/*.patch . && \
         git apply -v *.patch && \
         ./configure --prefix="${SRC}" \
