@@ -41,7 +41,6 @@ pipeline {
         REGISTRY_URL = 'registry.internal.unified-streaming.com'
         DOCKER_REPO = 'registry.internal.unified-streaming.com/operations/demo/live-demo-cmaf'
         GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-        RELEASE_NAME = sh(returnStdout: true, script: 'echo -n vod2live-${BRANCH_NAME}')
         CHART_REPO = 'http://admin:admin@chartmuseum-chartmuseum.chartmuseum.svc.k8s.unified-streaming.com:8080'
     }
     options {
