@@ -48,7 +48,7 @@ RUN     buildDeps="autoconf \
         cd build && cmake ../source && \
         make -j$(nproc) && \
         make install && \
-        rm -rf ${DIR} 
+        rm -rf ${DIR}
 
 COPY    *.patch /root/
 
@@ -56,14 +56,14 @@ COPY    *.patch /root/
 RUN     DIR=$(mktemp -d) && cd ${DIR} && \
         git clone https://github.com/FFmpeg/FFmpeg.git . && \
         cp /root/*.patch . && \
-        git apply *.patch && \
+        git apply -v *.patch && \
         ./configure --prefix="${SRC}" \
         --extra-cflags="-I${SRC}/include" \
         --extra-ldflags="-L${SRC}/lib" \
         --bindir="${SRC}/bin" \
         --disable-doc \
-	--disable-static \
-	--enable-shared \
+        --disable-static \
+        --enable-shared \
         --disable-ffplay \
         --extra-libs=-ldl \
         --enable-version3 \
