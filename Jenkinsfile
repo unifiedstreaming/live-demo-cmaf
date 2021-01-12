@@ -34,7 +34,6 @@ pipeline {
             '''
             }
         }
-    }
     environment {
         KUBECONFIG = credentials('kubeconfig')
         REGISTRY_TOKEN = credentials('gitlab-registry-operations')
@@ -42,9 +41,6 @@ pipeline {
         DOCKER_REPO = 'registry.internal.unified-streaming.com/operations/demo/live-demo-cmaf'
         GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
         CHART_REPO = 'http://admin:admin@chartmuseum-chartmuseum.chartmuseum.svc.k8s.unified-streaming.com:8080'
-    }
-    options {
-        quietPeriod(300)
     }
     stages {
         stage('build') {
@@ -59,4 +55,5 @@ pipeline {
                 }
             }
         }
+}
 }
