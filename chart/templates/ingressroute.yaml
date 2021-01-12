@@ -1,0 +1,13 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: live-demo-cmaf-ingressroute
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`live-demo-cmaf.{{ .Values.environment }}.internal.unified-streaming.com`)
+      services:
+        - name: {{ include "chart.fullname" . }}
+          port: 80
