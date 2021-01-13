@@ -29,7 +29,7 @@ spec:
           - name: PUB_POINT_URI
             value: "{{ .Values.ffmpeg.pub_point_uri }}"
           - name: TRACKS
-            value: {{ .Values.ffmpeg.tracks | toJson }}
+            value: {{ .Values.ffmpeg.tracks | toJson | quote }}
           {{- with .Values.env }}
           {{ toYaml . | trim | indent 10 }}
           {{ end }}
