@@ -44,6 +44,14 @@ spec:
             value: "{{ .Values.origin.channel }}"
           - name: PUB_POINT_OPTS
             value: "{{ .Values.origin.pub_point_opts }}"
+          - name: USP_LICENSE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "chart.fullname" . }}-license-key
+                key: USP_LICENSE_KEY
+          {{- with .Values.env }}
+{{ toYaml . | trim | indent 10 }}
+          {{ end }}
           {{- with .Values.env }}
           {{ toYaml . | trim | indent 10 }}
           {{ end }}
