@@ -26,7 +26,7 @@ ffmpeg:
 
 origin:
   repository: unifiedstreaming/origin
-  tag: "latest"
+  tag: latest
   pullPolicy: Always
   registryURL: registry.hub.docker.com
   channel: test
