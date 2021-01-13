@@ -14,74 +14,34 @@ spec:
       labels:
         {{- include "chart.selectorLabels" . | nindent 8 }}
     spec:
-    {{- if .Values.imagePullSecret.secretName }}
       imagePullSecrets:
-        - name: {{ .Values.imagePullSecret.secretName }}
-    {{- end }}
+        - name: gitlab-registry
+        - name: dockerhub
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      containers:
-{{- /*
-        This is the ffmpeg container
-*/}}
-        - name: {{ .Chart.Name }}-ffmpeg
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-          resources:
+      ports:
+        - name: http
+        containerPort: 80
+        protocol: TCP
+      resources:
             {{- toYaml .Values.resources | nindent 12 }}
-{{- /*
-        Need to update env to use variable similar to the docker-compose scripts
-*/}}
+      containers:
+        - name: ffmpeg
+          image: "{{ .Values.ffmpeg.repository }}:{{ .Values.ffmpeg.tag }}"
+          imagePullPolicy: {{ .Values.ffmpeg.pullPolicy }}
           env:
-          - name: USP_LICENSE_KEY
-            valueFrom:
-              secretKeyRef:
-                name: {{ include "chart.fullname" . }}-license-key
-                key: USP_LICENSE_KEY
+          - name: ENV1
+            value: value1
+          - name: ENV2
+            value: value2
           {{- with .Values.env }}
           {{ toYaml . | trim | indent 10 }}
-{{- /*
-        This is the Origin container - ** NEEDS CONFIGURING / FINISHING **
-*/}}
-        - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+        - name: origin
+          image: "{{ .Values.origin.repository }}:{{ .Values.origin.tag }}"
+          imagePullPolicy: {{ .Values.origin.pullPolicy }}
           env:
           - name: USP_LICENSE_KEY
-            valueFrom:
-              secretKeyRef:
-                name: {{ include "chart.fullname" . }}-license-key
-                key: USP_LICENSE_KEY
+            value: 
           {{- with .Values.env }}
           {{ toYaml . | trim | indent 10 }}
           {{ end }}
