@@ -123,7 +123,7 @@ spec:
                         --set ffmpeg.password=$REGISTRY_TOKEN_PSW \
                         --set ffmpeg.secretName=gitlab-reg-secret \
                         $RELEASE_NAME \
-                        ./chart
+                        ./chart --debug
                 '''
             }
         }
