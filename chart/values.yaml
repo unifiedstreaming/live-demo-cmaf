@@ -6,7 +6,7 @@ replicaCount: 1
 
 
 image:
-  repository: operations/demo/vod2live/trunk
+  repository: /operations/demo/live-demo-cmaf/main
   tag: latest
   pullPolicy: Always
 
