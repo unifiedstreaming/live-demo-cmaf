@@ -114,6 +114,7 @@ spec:
             container('helm') {
                 sh '''
                     helm --kubeconfig $KUBECONFIG \
+                        upgrade \
                         --install \
                         --wait \
                         --timeout 300s \
