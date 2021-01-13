@@ -126,7 +126,6 @@ spec:
                         --set imagePullSecret.secretName=gitlab-reg-secret \
                         --set imagePullSecret.registryURL=$REGISTRY_URL \
                         --set image.repository=$DOCKER_REPO/$BRANCH_NAME \
-                        --set image.tag=$GIT_COMMIT \
                         --set environment=$BRANCH_NAME \
                         $RELEASE_NAME \
                         ./chart --debug
