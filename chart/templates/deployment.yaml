@@ -26,10 +26,10 @@ spec:
           ports:
           - containerPort: 80
           env:
-          - name: env1
-            value: value1
-          - name: env2
-            value: value2
+          - name: PUB_POINT_URI
+            value: "{{ .Values.ffmpeg.pub_point_uri }}"
+          - name: TRACKS
+            value: {{ .Values.ffmpeg.tracks | toJson }}
           {{- with .Values.env }}
           {{ toYaml . | trim | indent 10 }}
           {{ end }}
@@ -39,8 +39,10 @@ spec:
           ports:
           - containerPort: 80
           env:
-          - name: env3
-            value: value3
+          - name: CHANNEL
+            value: "{{ .Values.origin.channel }}"
+          - name: PUB_POINT_OPTS
+            value: "{{ .Values.origin.pub_point_opts }}"
           {{- with .Values.env }}
           {{ toYaml . | trim | indent 10 }}
           {{ end }}

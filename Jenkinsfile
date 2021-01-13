@@ -42,6 +42,7 @@ spec:
         REGISTRY_TOKEN = credentials('gitlab-registry-operations')
         REGISTRY_URL = 'registry.internal.unified-streaming.com'
         DOCKER_REPO = 'registry.internal.unified-streaming.com/operations/demo/live-demo-cmaf'
+        RELEASE_NAME = sh(returnStdout: true, script: 'echo -n livedemocmaf-${BRANCH_NAME}')
         GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
         // Additional env variable which can be parsed at helm install or called
         // via chart/values.yaml
@@ -107,12 +108,10 @@ spec:
         }
     }
     */
-    /* My Deploy stage - WIP
     stage('deploy') {
         steps {
             container('helm') {
                 sh '''
-                    export COMMIT=${SVN_COMMIT:-$LAST_STABLE_SVN}
                     helm --kubeconfig $KUBECONFIG \
                         upgrade \
                         --install \
@@ -120,28 +119,14 @@ spec:
                         --timeout 300s \
                         --namespace $RELEASE_NAME \
                         --create-namespace \
-                        --set licenseKey=$USP_LICENSE_KEY \
-                        --set imagePullSecret.username=$REGISTRY_TOKEN_USR \
-                        --set imagePullSecret.password=$REGISTRY_TOKEN_PSW \
-                        --set imagePullSecret.secretName=gitlab-reg-secret \
-                        --set imagePullSecret.registryURL=$REGISTRY_URL \
-                        --set image.repository=$DOCKER_REPO/$BRANCH_NAME \
-                        --set image.tag=$GIT_COMMIT \
-                        --set environment=$BRANCH_NAME \
-                        --set env[0].name=REMOTE_STORAGE_URL \
-                        --set env[0].value=$REMOTE_STORAGE_URL \
-                        --set env[1].name=S3_ACCESS_KEY \
-                        --set env[1].value=$S3_ACCESS_KEY \
-                        --set env[2].name=S3_SECRET_KEY \
-                        --set env[2].value=$S3_SECRET_KEY \
-                        --set env[3].name=S3_REGION \
-                        --set env[3].value=$S3_REGION \
+                        --set ffmpeg.username=$REGISTRY_TOKEN_USR \
+                        --set ffmpeg.password=$REGISTRY_TOKEN_PSW \
+                        --set ffmpeg.secretName=gitlab-reg-secret \
                         $RELEASE_NAME \
                         ./chart
                 '''
             }
         }
     }
-    */
   }
 }
