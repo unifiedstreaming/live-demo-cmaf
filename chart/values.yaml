@@ -11,7 +11,7 @@ imagePullSecret:
   password: ""
 
 ffmpeg:
-  repository: operations/demo/vod2live/trunk
+  repository: operations/demo/live-demo-cmaf/main
   tag: latest
   pullPolicy: Always
   pub_point_uri: http://live-origin/test/test.isml
