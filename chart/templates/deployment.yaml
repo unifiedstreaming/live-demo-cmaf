@@ -32,16 +32,16 @@ spec:
           {{- with .Values.env }}
           {{ toYaml . | trim | indent 10 }}
           {{ end }}
-        - name: origin
-          image: "{{ .Values.origin.registryURL }}/{{ .Values.origin.repository }}:{{ .Values.origin.tag }}"
-          imagePullPolicy: "{{ .Values.origin.pullPolicy }}"
+        - name: live-origin
+          image: "{{ .Values.live-origin.registryURL }}/{{ .Values.live-origin.repository }}:{{ .Values.live-origin.tag }}"
+          imagePullPolicy: "{{ .Values.live-origin.pullPolicy }}"
           ports:
           - containerPort: 80
           env:
           - name: CHANNEL
-            value: "{{ .Values.origin.channel }}"
+            value: "{{ .Values.live-origin.channel }}"
           - name: PUB_POINT_OPTS
-            value: "{{ .Values.origin.pub_point_opts }}"
+            value: "{{ .Values.live-origin.pub_point_opts }}"
           - name: USP_LICENSE_KEY
             valueFrom:
               secretKeyRef:
