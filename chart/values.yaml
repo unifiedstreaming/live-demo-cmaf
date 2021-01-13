@@ -4,16 +4,23 @@
 
 replicaCount: 1
 
+
+image:
+  repository: operations/demo/vod2live/trunk
+  tag: latest
+  pullPolicy: Always
+
 imagePullSecret:
   registryURL: registry.internal.unified-streaming.com
   secretName: ""
   username: ""
   password: ""
 
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
 ffmpeg:
-  repository: operations/demo/live-demo-cmaf/main
-  tag: latest
-  pullPolicy: Always
   pub_point_uri: http://live-origin/test/test.isml
   tracks: { "video": [ { "width": 1024, "height": 576, "bitrate": "500k", "codec": "libx264", "framerate": 25, "gop": 24, "timescale": 50 }, { "width": 1280, "height": 720, "bitrate": "1000k", "codec": "libx264", "framerate": 50, "gop": 48, "timescale": 50 } ], "audio": [ { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "eng", "timescale": 48000 }, { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "dut", "timescale": 48000 } ] }
 
@@ -31,12 +38,6 @@ origin:
 
 # optionally set environment variables for Origin container
 #env: []
-
-
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
-
 
 podSecurityContext: {}
   # fsGroup: 2000

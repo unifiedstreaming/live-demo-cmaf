@@ -113,7 +113,7 @@ spec:
         steps {
             container('helm') {
                 sh '''
-                                        helm --kubeconfig $KUBECONFIG \
+                    helm --kubeconfig $KUBECONFIG \
                         upgrade \
                         --install \
                         --wait \
@@ -125,6 +125,8 @@ spec:
                         --set imagePullSecret.password=$REGISTRY_TOKEN_PSW \
                         --set imagePullSecret.secretName=gitlab-reg-secret \
                         --set imagePullSecret.registryURL=$REGISTRY_URL \
+                        --set image.repository=$DOCKER_REPO/$BRANCH_NAME \
+                        --set image.tag=$GIT_COMMIT \
                         --set environment=$BRANCH_NAME \
                         $RELEASE_NAME \
                         ./chart --debug
