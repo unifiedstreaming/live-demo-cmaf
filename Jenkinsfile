@@ -73,65 +73,48 @@ spec:
                 }
             }
         }
-    /* Deploy stage Copied from vod2live
-    stage('deploy') {
-        steps {
-            container('helm') {
-                sh '''
-                    export COMMIT=${SVN_COMMIT:-$LAST_STABLE_SVN}
-                    helm --kubeconfig $KUBECONFIG \
-                        upgrade \
-                        --install \
-                        --wait \
-                        --timeout 300s \
-                        --namespace $RELEASE_NAME \
-                        --create-namespace \
-                        --set licenseKey=$USP_LICENSE_KEY \
-                        --set imagePullSecret.username=$REGISTRY_TOKEN_USR \
-                        --set imagePullSecret.password=$REGISTRY_TOKEN_PSW \
-                        --set imagePullSecret.secretName=gitlab-reg-secret \
-                        --set imagePullSecret.registryURL=$REGISTRY_URL \
-                        --set image.repository=$DOCKER_REPO/$BRANCH_NAME \
-                        --set image.tag=$GIT_COMMIT \
-                        --set environment=$BRANCH_NAME \
-                        --set env[0].name=REMOTE_STORAGE_URL \
-                        --set env[0].value=$REMOTE_STORAGE_URL \
-                        --set env[1].name=S3_ACCESS_KEY \
-                        --set env[1].value=$S3_ACCESS_KEY \
-                        --set env[2].name=S3_SECRET_KEY \
-                        --set env[2].value=$S3_SECRET_KEY \
-                        --set env[3].name=S3_REGION \
-                        --set env[3].value=$S3_REGION \
-                        $RELEASE_NAME \
-                        ./chart
-                '''
+        stage('deploy') {
+            steps {
+                container('helm') {
+                    sh '''
+                        helm --kubeconfig $KUBECONFIG \
+                            --install \
+                            --wait \
+                            --timeout 300s \
+                            --namespace $RELEASE_NAME \
+                            --create-namespace \
+                            --set licenseKey=$USP_LICENSE_KEY \
+                            --set imagePullSecret.username=$REGISTRY_TOKEN_USR \
+                            --set imagePullSecret.password=$REGISTRY_TOKEN_PSW \
+                            --set imagePullSecret.secretName=gitlab-reg-secret \
+                            --set imagePullSecret.registryURL=$REGISTRY_URL \
+                            --set image.repository=$DOCKER_REPO/$BRANCH_NAME \
+                            --set image.tag=$GIT_COMMIT \
+                            --set environment=$BRANCH_NAME \
+                            $RELEASE_NAME \
+                            ./chart
+                    '''
+                }
+            }
+        }
+        stage('test') {
+            steps {
+                sh 'curl --silent --fail --show-error http://$RELEASE_NAME.$RELEASE_NAME.svc.k8s.unified-streaming.com/test/test.isml/.mpd'
+            }
+        }
+        stage('publish chart') {
+            steps {
+                container('helm') {
+                    sh '''
+                        VERSION=`grep "^version:.*$" chart/Chart.yaml | awk '{print $2}'`-$GIT_COMMIT
+                        helm --kubeconfig $KUBECONFIG \
+                            push \
+                            --version $VERSION \
+                            ./chart \
+                            $CHART_REPO
+                    '''
+                }
             }
         }
     }
-    */
-    stage('deploy') {
-        steps {
-            container('helm') {
-                sh '''
-                    helm --kubeconfig $KUBECONFIG \
-                        --install \
-                        --wait \
-                        --timeout 300s \
-                        --namespace $RELEASE_NAME \
-                        --create-namespace \
-                        --set licenseKey=$USP_LICENSE_KEY \
-                        --set imagePullSecret.username=$REGISTRY_TOKEN_USR \
-                        --set imagePullSecret.password=$REGISTRY_TOKEN_PSW \
-                        --set imagePullSecret.secretName=gitlab-reg-secret \
-                        --set imagePullSecret.registryURL=$REGISTRY_URL \
-                        --set image.repository=$DOCKER_REPO/$BRANCH_NAME \
-                        --set image.tag=$GIT_COMMIT \
-                        --set environment=$BRANCH_NAME \
-                        $RELEASE_NAME \
-                        ./chart --debug
-                '''
-            }
-        }
-    }
-  }
 }
