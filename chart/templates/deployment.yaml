@@ -14,9 +14,10 @@ spec:
       labels:
         {{- include "chart.selectorLabels" . | nindent 8 }}
     spec:
+      {{- if .Values.imagePullSecret.secretName }}
       imagePullSecrets:
-        - name: gitlab-registry
-        - name: dockerhub
+        - name: {{ .Values.imagePullSecret.secretName }}
+      {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:

@@ -112,16 +112,19 @@ spec:
         steps {
             container('helm') {
                 sh '''
-                    helm --kubeconfig $KUBECONFIG \
+                                        helm --kubeconfig $KUBECONFIG \
                         upgrade \
                         --install \
                         --wait \
                         --timeout 300s \
                         --namespace $RELEASE_NAME \
                         --create-namespace \
-                        --set ffmpeg.username=$REGISTRY_TOKEN_USR \
-                        --set ffmpeg.password=$REGISTRY_TOKEN_PSW \
-                        --set ffmpeg.secretName=gitlab-reg-secret \
+                        --set licenseKey=$USP_LICENSE_KEY \
+                        --set imagePullSecret.username=$REGISTRY_TOKEN_USR \
+                        --set imagePullSecret.password=$REGISTRY_TOKEN_PSW \
+                        --set imagePullSecret.secretName=gitlab-reg-secret \
+                        --set imagePullSecret.registryURL=$REGISTRY_URL \
+                        --set environment=$BRANCH_NAME \
                         $RELEASE_NAME \
                         ./chart --debug
                 '''
