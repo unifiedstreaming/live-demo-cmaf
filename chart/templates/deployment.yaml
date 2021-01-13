@@ -22,8 +22,8 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: ffmpeg
-          image: "{{ .Values.ffmpeg.repository }}:{{ .Values.ffmpeg.tag }}"
-          imagePullPolicy: "{{ .Values.ffmpeg.pullPolicy }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: "{{ .Values.image.pullPolicy }}"
           ports:
           - containerPort: 80
           env:

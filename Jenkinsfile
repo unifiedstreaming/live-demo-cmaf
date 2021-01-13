@@ -79,6 +79,7 @@ spec:
                     sh '''
                         helm --kubeconfig $KUBECONFIG \
                             upgrade \
+                            --force \
                             --install \
                             --wait \
                             --timeout 300s \
