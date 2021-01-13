@@ -33,7 +33,7 @@ spec:
           {{ toYaml . | trim | indent 10 }}
           {{ end }}
         - name: liveorigin
-          image: "{{.Values.liveorigin.registryURL" }}/{{.Values.liveorigin.repository" }}:{{ .Values.liveorigin.tag }}"
+          image: "{{ .Values.liveorigin.registryURL }}/{{.Values.liveorigin.repository }}:{{ .Values.liveorigin.tag }}"
           imagePullPolicy: "{{ .Values.liveorigin.pullPolicy }}"
           ports:
           - containerPort: 80
