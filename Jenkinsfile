@@ -78,7 +78,7 @@ spec:
                 container('helm') {
                     sh '''
                         helm --kubeconfig $KUBECONFIG \
-                            --install \
+                            install \
                             --wait \
                             --timeout 300s \
                             --namespace $RELEASE_NAME \
