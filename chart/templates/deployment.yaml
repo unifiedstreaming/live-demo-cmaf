@@ -35,7 +35,7 @@ spec:
           {{ toYaml . | trim | indent 10 }}
           {{ end }}
         - name: origin
-          image: "{{ .Values.origin.repository }}:{{ .Values.origin.tag }}"
+          image: "{{ .Values.origin.registryURL }}/{{ .Values.origin.repository }}:{{ .Values.origin.tag }}"
           imagePullPolicy: "{{ .Values.origin.pullPolicy }}"
           ports:
           - containerPort: 80

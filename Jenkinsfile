@@ -42,7 +42,7 @@ spec:
         REGISTRY_TOKEN = credentials('gitlab-registry-operations')
         REGISTRY_URL = 'registry.internal.unified-streaming.com'
         DOCKER_REPO = 'registry.internal.unified-streaming.com/operations/demo/live-demo-cmaf'
-        RELEASE_NAME = sh(returnStdout: true, script: 'echo -n livedemocmaf-${BRANCH_NAME}')
+        RELEASE_NAME = sh(returnStdout: true, script: 'echo -n live-demo-cmaf-${BRANCH_NAME}')
         GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
         USP_LICENSE_KEY = credentials('development-license.key')
         // Additional env variable which can be parsed at helm install or called
