@@ -21,7 +21,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: ffmpegA
+        - name: ffmpega
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: "{{ .Values.image.pullPolicy }}"
           env:
@@ -32,7 +32,7 @@ spec:
           {{- with .Values.env }}
           {{ toYaml . | trim | indent 10 }}
           {{ end }}
-        - name: ffmpegB
+        - name: ffmpegb
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: "{{ .Values.image.pullPolicy }}"
           env:
