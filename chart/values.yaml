@@ -6,8 +6,8 @@ replicaCount: 1
 
 
 image:
-  repository: /operations/demo/live-demo-cmaf/main
-  tag: latest
+  repository: /operations/demo/live-demo-cmaf/stable
+  tag: 1.10.28
   pullPolicy: Always
 
 imagePullSecret:
@@ -21,12 +21,12 @@ nameOverride: ""
 fullnameOverride: ""
 
 ffmpeg:
-  pub_point_uri: http://liveorigin/test/test.isml
+  pub_point_uri: http://liveorigin.live-demo-cmaf/test/test.isml
   tracks: { "video": [ { "width": 1024, "height": 576, "bitrate": "500k", "codec": "libx264", "framerate": 25, "gop": 24, "timescale": 50 }, { "width": 1280, "height": 720, "bitrate": "1000k", "codec": "libx264", "framerate": 50, "gop": 48, "timescale": 50 } ], "audio": [ { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "eng", "timescale": 48000 }, { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "dut", "timescale": 48000 } ] }
 
 liveorigin:
   repository: unifiedstreaming/live
-  tag: latest
+  tag: 1.10.28
   pullPolicy: Always
   registryURL: registry.hub.docker.com
   channel: test
@@ -72,4 +72,4 @@ tolerations: []
 
 affinity: {}
 
-environment: main
+environment: stable

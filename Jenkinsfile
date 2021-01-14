@@ -45,6 +45,7 @@ spec:
         RELEASE_NAME = sh(returnStdout: true, script: 'echo -n live-demo-cmaf-${BRANCH_NAME}')
         GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
         USP_LICENSE_KEY = credentials('development-license.key')
+        VERSION = '1.10.28'
         // Additional env variable which can be parsed at helm install or called
         // via chart/values.yaml
         // For origin
@@ -67,8 +68,7 @@ spec:
                             -c `pwd` \
                             --cache=true \
                             --cache-repo=$DOCKER_REPO/cache \
-                            --destination $DOCKER_REPO/$BRANCH_NAME:$GIT_COMMIT \
-                            --destination $DOCKER_REPO/$BRANCH_NAME:latest \
+                            --destination $DOCKER_REPO/$BRANCH_NAME:$VERSION \
                     '''
                 }
             }
@@ -91,7 +91,7 @@ spec:
                             --set imagePullSecret.secretName=gitlab-reg-secret \
                             --set imagePullSecret.registryURL=$REGISTRY_URL \
                             --set image.repository=$DOCKER_REPO/$BRANCH_NAME \
-                            --set image.tag=$GIT_COMMIT \
+                            --set image.tag=$VERSION \
                             --set environment=$BRANCH_NAME \
                             $RELEASE_NAME \
                             ./chart
@@ -104,6 +104,7 @@ spec:
                 sh 'curl --silent --fail --show-error http://$RELEASE_NAME.$RELEASE_NAME.svc.k8s.unified-streaming.com/test/test.isml/.mpd'
             }
         }
+        /* 
         stage('publish chart') {
             steps {
                 container('helm') {
@@ -118,5 +119,6 @@ spec:
                 }
             }
         }
+        */
     }
 }
