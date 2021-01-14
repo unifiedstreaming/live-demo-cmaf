@@ -11,3 +11,8 @@ spec:
       services:
         - name: {{ include "chart.fullname" . }}
           port: 80
+    - kind: Rule
+      match: Host(`live-demo-cmaf.demo.unified-streaming.com`)
+      services:
+        - name: {{ include "chart.fullname" . }}
+          port: 80
