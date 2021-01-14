@@ -46,6 +46,9 @@ spec:
         GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
         USP_LICENSE_KEY = credentials('development-license.key')
         VERSION = '1.10.28'
+        CHANNEL = 'cmaf'
+        // Channel & version need to also be set in values.yaml
+
         // Additional env variable which can be parsed at helm install or called
         // via chart/values.yaml
         // For origin
@@ -101,7 +104,7 @@ spec:
         }
         stage('test') {
             steps {
-                sh 'curl --silent --fail --show-error http://$RELEASE_NAME.$RELEASE_NAME.svc.k8s.unified-streaming.com/test/test.isml/.mpd'
+                sh 'curl --silent --fail --show-error http://$RELEASE_NAME.$RELEASE_NAME.svc.k8s.unified-streaming.com/$CHANNEL/$CHANNEL.isml/.mpd'
             }
         }
         /* 
