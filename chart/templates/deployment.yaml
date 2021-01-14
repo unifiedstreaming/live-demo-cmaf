@@ -21,12 +21,23 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: ffmpeg
+        - name: ffmpegA
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: "{{ .Values.image.pullPolicy }}"
           env:
           - name: PUB_POINT_URI
-            value: http://localhost/test/test.isml
+            value: {{ .Values.ffmpeg.pub_point_uri }}
+          - name: TRACKS
+            value: {{ .Values.ffmpeg.tracks | toJson | quote }}
+          {{- with .Values.env }}
+          {{ toYaml . | trim | indent 10 }}
+          {{ end }}
+        - name: ffmpegB
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+          env:
+          - name: PUB_POINT_URI
+            value: {{ .Values.ffmpeg.pub_point_uri }}
           - name: TRACKS
             value: {{ .Values.ffmpeg.tracks | toJson | quote }}
           {{- with .Values.env }}
