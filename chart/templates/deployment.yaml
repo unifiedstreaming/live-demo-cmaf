@@ -14,16 +14,19 @@ spec:
       labels:
         {{- include "chart.selectorLabels" . | nindent 8 }}
     spec:
-      {{- if .Values.imagePullSecret.secretName }}
+      {{- if .Values.ffmpegPullSecret.secretName }}
+      {{- if .Values.originPullSecret.secretName }}
       imagePullSecrets:
         - name: {{ .Values.imagePullSecret.secretName }}
+        - name: {{ .Values.originPullSecret.secretName }}
+      {{- end }}
       {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: ffmpega
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+          image: "{{ .Values.ffmpegImage.repository }}:{{ .Values.ffmpegImage.tag }}"
+          imagePullPolicy: "{{ .Values.ffmpegImage.pullPolicy }}"
           env:
           - name: PUB_POINT_URI
             value: {{ .Values.ffmpeg.pub_point_uri }}
@@ -33,8 +36,8 @@ spec:
           {{ toYaml . | trim | indent 10 }}
           {{ end }}
         - name: ffmpegb
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+          image: "{{ .Values.ffmpegImage.repository }}:{{ .Values.ffmpegImage.tag }}"
+          imagePullPolicy: "{{ .Values.ffmpegImage.pullPolicy }}"
           env:
           - name: PUB_POINT_URI
             value: {{ .Values.ffmpeg.pub_point_uri }}
@@ -44,8 +47,8 @@ spec:
           {{ toYaml . | trim | indent 10 }}
           {{ end }}
         - name: liveorigin
-          image: "{{ .Values.liveorigin.registryURL }}/{{.Values.liveorigin.repository }}:{{ .Values.liveorigin.tag }}"
-          imagePullPolicy: "{{ .Values.liveorigin.pullPolicy }}"
+          image: "{{.Values.originImage.repository }}:{{ .Values.originImage.tag }}"
+          imagePullPolicy: "{{ .Values.originImage.pullPolicy }}"
           ports:
             - name: http
               containerPort: 80
