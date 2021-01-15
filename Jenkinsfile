@@ -88,7 +88,7 @@ spec:
                             --set originPullSecret.username=$DH_REGISTRY_TOKEN_USR \
                             --set originPullSecret.password=$DH_REGISTRY_TOKEN_PSW \
                             --set originPullSecret.secretName=docker-hub \
-                            --set originImage.repository=$DH_DOCKER_REPO/$BRANCH_NAME \
+                            --set originImage.repository=$DH_DOCKER_REPO \
                             --set originImage.tag=$VERSION \
                             --set ffmpegPullSecret.username=$GL_REGISTRY_TOKEN_USR \
                             --set ffmpegPullSecret.password=$GL_REGISTRY_TOKEN_PSW \
