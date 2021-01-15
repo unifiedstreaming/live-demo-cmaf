@@ -17,7 +17,7 @@ spec:
       {{- if .Values.ffmpegPullSecret.secretName }}
       {{- if .Values.originPullSecret.secretName }}
       imagePullSecrets:
-        - name: {{ .Values.imagePullSecret.secretName }}
+        - name: {{ .Values.ffmpegPullSecret.secretName }}
         - name: {{ .Values.originPullSecret.secretName }}
       {{- end }}
       {{- end }}
