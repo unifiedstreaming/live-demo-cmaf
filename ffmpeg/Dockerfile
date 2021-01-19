@@ -3,7 +3,7 @@
 # https://hub.docker.com/r/jrottenberg/ffmpeg/
 #
 #
-FROM    alpine:3.11
+FROM    alpine:3.12
 
 
 ENV     X264_VERSION=20160826-2245-stable \
