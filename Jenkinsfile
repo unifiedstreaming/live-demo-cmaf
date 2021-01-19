@@ -66,8 +66,6 @@ spec:
                         /kaniko/executor \
                             -f `pwd`/Dockerfile \
                             -c `pwd` \
-                            --cache=true \
-                            --cache-repo=$GL_DOCKER_REPO/cache \
                             --destination $GL_DOCKER_REPO/$BRANCH_NAME:$VERSION \
                     '''
                 }

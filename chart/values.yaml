@@ -32,46 +32,7 @@ fullnameOverride: ""
 
 ffmpeg:
   pub_point_uri: http://localhost/cmaf/cmaf.isml
-  tracks: '''
-  {
-   "video":[
-      {
-         "width":1024,
-         "height":576,
-         "bitrate":"500k",
-         "codec":"libx264",
-         "framerate":25,
-         "gop":24,
-         "timescale":50
-      },
-      {
-         "width":1280,
-         "height":720,
-         "bitrate":"1000k",
-         "codec":"libx264",
-         "framerate":50,
-         "gop":48,
-         "timescale":50
-      }
-   ],
-   "audio":[
-      {
-         "samplerate":48000,
-         "bitrate":"64k",
-         "codec":"aac",
-         "language":"eng",
-         "timescale":48000
-      },
-      {
-         "samplerate":48000,
-         "bitrate":"64k",
-         "codec":"aac",
-         "language":"dut",
-         "timescale":48000
-      }
-   ]
-}
-'''
+  tracks: tracks: { "video": [ { "width": 1024, "height": 576, "bitrate": "500k", "codec": "libx264", "framerate": 25, "gop": 24, "timescale": 50 }, { "width": 1280, "height": 720, "bitrate": "1000k", "codec": "libx264", "framerate": 50, "gop": 48, "timescale": 50 } ], "audio": [ { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "eng", "timescale": 48000 }, { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "dut", "timescale": 48000 } ] }
 
 liveorigin:
   channel: cmaf
