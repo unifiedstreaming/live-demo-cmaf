@@ -55,8 +55,8 @@ COPY    *.patch /root/
 ## ffmpeg source from github
 # checkout working commit ca21cb1e36ccae2ee71d4299d477fa9284c1f551 from 12/01/2021
 RUN     DIR=$(mktemp -d) && cd ${DIR} && \
-        git clone https://github.com/FFmpeg/FFmpeg.git . && \
-        git checkout --detach ca21cb1e36ccae2ee71d4299d477fa9284c1f551 && \
+        git clone https://github.com/jeeb/ffmpeg.git . && \
+        git checkout --detach 848f22d43a7401b68e6508cc80320d720bc1d671 && \
         cp /root/*.patch . && \
         git apply -v *.patch && \
         ./configure --prefix="${SRC}" \
