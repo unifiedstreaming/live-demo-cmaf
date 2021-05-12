@@ -3,7 +3,7 @@
 # https://hub.docker.com/r/jrottenberg/ffmpeg/
 #
 #
-FROM    alpine:3.11
+FROM    alpine:3.12
 
 
 ENV     X264_VERSION=20160826-2245-stable \
@@ -48,22 +48,24 @@ RUN     buildDeps="autoconf \
         cd build && cmake ../source && \
         make -j$(nproc) && \
         make install && \
-        rm -rf ${DIR} 
+        rm -rf ${DIR}
 
 COPY    *.patch /root/
 
 ## ffmpeg source from github
+# checkout working commit ca21cb1e36ccae2ee71d4299d477fa9284c1f551 from 12/01/2021
 RUN     DIR=$(mktemp -d) && cd ${DIR} && \
         git clone https://github.com/FFmpeg/FFmpeg.git . && \
+        git checkout --detach ca21cb1e36ccae2ee71d4299d477fa9284c1f551 && \
         cp /root/*.patch . && \
-        git apply *.patch && \
+        git apply -v *.patch && \
         ./configure --prefix="${SRC}" \
         --extra-cflags="-I${SRC}/include" \
         --extra-ldflags="-L${SRC}/lib" \
         --bindir="${SRC}/bin" \
         --disable-doc \
-	--disable-static \
-	--enable-shared \
+        --disable-static \
+        --enable-shared \
         --disable-ffplay \
         --extra-libs=-ldl \
         --enable-version3 \
