@@ -1,15 +1,20 @@
+
 ![Image](../master/unifiedstreaming-logo-black.jpg?raw=true)
 
 # Unified Streaming Live Origin Demo 
 # DASH-IF Live Media Ingest Protocal - Interface 2 (DASH/HLS)
 
+
+
 ## Overview
-This project demonstrates the use of [FFmpeg](https://ffmpeg.org/) and [Unified Streaming - Origin Live](http://www.unified-streaming.com/products/unified-origin) to present a Live Adaptive Bitrate presentation. 
+This project demonstrates the use of [FFmpeg](https://ffmpeg.org/) and [Unified Streaming - Origin Live](http://www.unified-streaming.com/products/unified-origin) to present a Live Adaptive Bitrate presentation.
+
 
 FFmpeg delivers HLS/DASH CMAF tracks to Unified Origin using the [DASH-IF Live Media Ingest Protocal - Interface 2](https://dashif-documents.azurewebsites.net/Ingest/master/DASH-IF-Ingest.html).
 
+
 For more information about Unified Origin or you have any questions please visit see our [Documentation](http://docs.unified-streaming.com/) or contact us at [support@unified-streaming.com](mailto:support@unified-streaming.com?subject=[GitHub]%20CMAF%20Ingest%20Live%20Demo).
-![Image](../master/cmaf_flow.png?raw=true)
+![Image](./cmaf_flow.png?raw=true)
 
 The demo consists of two Docker containers which are deployed using Docker Compose, alongside 4 optional ffmpeg scripts.
 
@@ -22,6 +27,7 @@ The default track configuration created is below, however encoding parameters ca
 ## Disclaimer
 
 This demo utilises software which is still in development and is therefore not intended for production use. A list of known issues affecting this demo can be tracked [here](https://github.com/unifiedstreaming/live-demo-cmaf/issues).
+
 
 ## Setup
 
@@ -53,7 +59,7 @@ This can be done by running the following command in the directory of this demo'
 
 ```bash
 #!/bin/sh
-docker-compose build ffmpeg
+docker-compose build ffmpeg-1 ffmpeg-2
 ```
 
 Which will create a Docker image called livedemo_ffmpeg.
@@ -115,3 +121,4 @@ HLS Ingest will look something like:
 DASH Ingest will look something like:
 
 ![example2](./ffmpeg/example_dash.png?raw=true)
+

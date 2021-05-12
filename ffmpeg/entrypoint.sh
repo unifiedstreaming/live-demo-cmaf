@@ -1,13 +1,8 @@
 #!/bin/sh
 
-# set env vars to defaults if not already set
-export FRAME_RATE="${FRAME_RATE:-25}"
-export GOP_LENGTH="${GOP_LENGTH:-${FRAME_RATE}}"
-export AUDIO_FRAG_DUR_MICROS="${AUDIO_FRAG_DUR_MICROS:-1920000}"
-
-if [ "${FRAME_RATE}" = "30000/1001" -o "${FRAME_RATE}" = "60000/1001" ]; then
-  echo "drop frame"
-  export FRAME_SEP="."
+if [ $# -eq 0 ]
+then
+  python3 /usr/local/bin/entrypoint.py
 else
   export FRAME_SEP=":"
 fi

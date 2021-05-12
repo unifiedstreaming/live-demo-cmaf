@@ -1,0 +1,64 @@
+From 4fbda4254936c30cac88125af999cc9449a9af5c Mon Sep 17 00:00:00 2001
+From: Mark Ogle <mark@unified-streaming.com>
+Date: Thu, 18 Jun 2020 12:17:10 +0200
+Subject: [PATCH 2/4] add audio_track_timescale option
+
+---
+ libavformat/movenc.c | 15 ++++++++++++---
+ libavformat/movenc.h |  1 +
+ 2 files changed, 13 insertions(+), 3 deletions(-)
+
+diff --git a/libavformat/movenc.c b/libavformat/movenc.c
+index 5ffb7619ec..8925475b19 100644
+--- a/libavformat/movenc.c
++++ b/libavformat/movenc.c
+@@ -94,6 +94,7 @@ static const AVOption options[] = {
+     { "ism_lookahead", "Number of lookahead entries for ISM files", offsetof(MOVMuxContext, ism_lookahead), AV_OPT_TYPE_INT, {.i64 = 0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
+     { "ism_offset", "Offset to the ISM fragment start times", offsetof(MOVMuxContext, ism_offset), AV_OPT_TYPE_INT64, {.i64 = 0}, 0, INT64_MAX, AV_OPT_FLAG_ENCODING_PARAM},
+     { "video_track_timescale", "set timescale of all video tracks", offsetof(MOVMuxContext, video_track_timescale), AV_OPT_TYPE_INT, {.i64 = 0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
++    { "audio_track_timescale", "set timescale of all audio tracks", offsetof(MOVMuxContext, audio_track_timescale), AV_OPT_TYPE_INT, {.i64 = 0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM },
+     { "brand",    "Override major brand", offsetof(MOVMuxContext, major_brand),   AV_OPT_TYPE_STRING, {.str = NULL}, .flags = AV_OPT_FLAG_ENCODING_PARAM },
+     { "use_editlist", "use edit list", offsetof(MOVMuxContext, use_editlist), AV_OPT_TYPE_BOOL, {.i64 = -1}, -1, 1, AV_OPT_FLAG_ENCODING_PARAM},
+     { "fragment_index", "Fragment number of the next fragment", offsetof(MOVMuxContext, fragments), AV_OPT_TYPE_INT, {.i64 = 1}, 1, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
+@@ -6606,7 +6607,13 @@ static int mov_init(AVFormatContext *s)
+                 return AVERROR_PATCHWELCOME;
+             }
+         } else if (st->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
+-            track->timescale = st->codecpar->sample_rate;
++            if (mov->audio_track_timescale) {
++                track->timescale = mov->audio_track_timescale;
++                if (mov->mode == MODE_ISM && mov->audio_track_timescale != 10000000)
++                    av_log(s, AV_LOG_WARNING, "Warning: some tools, like mp4split, assume a timescale of 10000000 for ISMV.\n");
++            } else {
++                track->timescale = st->codecpar->sample_rate;
++            }
+             if (!st->codecpar->frame_size && !av_get_bits_per_sample(st->codecpar->codec_id)) {
+                 av_log(s, AV_LOG_WARNING, "track %d: codec frame size is not set\n", i);
+                 track->audio_vbr = 1;
+@@ -6667,8 +6674,10 @@ static int mov_init(AVFormatContext *s)
+            doesn't mandate a track timescale of 10,000,000. The muxer allows a custom timescale
+            for video tracks, so if user-set, it isn't overwritten */
+         if (mov->mode == MODE_ISM &&
+-            (st->codecpar->codec_type != AVMEDIA_TYPE_VIDEO ||
+-            (st->codecpar->codec_type == AVMEDIA_TYPE_VIDEO && !mov->video_track_timescale))) {
++            ((st->codecpar->codec_type != AVMEDIA_TYPE_AUDIO &&
++              st->codecpar->codec_type != AVMEDIA_TYPE_VIDEO) ||
++             (st->codecpar->codec_type == AVMEDIA_TYPE_AUDIO && !mov->audio_track_timescale) ||
++             (st->codecpar->codec_type == AVMEDIA_TYPE_VIDEO && !mov->video_track_timescale))) {
+              track->timescale = 10000000;
+         }
+
+diff --git a/libavformat/movenc.h b/libavformat/movenc.h
+index ebeddb6f0d..4a505800cd 100644
+--- a/libavformat/movenc.h
++++ b/libavformat/movenc.h
+@@ -207,6 +207,7 @@ typedef struct MOVMuxContext {
+     int first_trun;
+
+     int video_track_timescale;
++    int audio_track_timescale;
+
+     int reserved_moov_size; ///< 0 for disabled, -1 for automatic, size otherwise
+     int64_t reserved_header_pos;
+--
+2.24.1 (Apple Git-126)
