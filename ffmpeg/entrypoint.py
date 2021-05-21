@@ -74,7 +74,7 @@ DEFAULT_TRACKS = {
             "samplerate": 48000,
             "bitrate": "64k",
             "codec": "aac",
-            "language": "en",
+            "language": "eng",
             "timescale": 48000
         }
     ]
@@ -155,11 +155,18 @@ filter_complex = f"""
     x=(w-tw)/2:
     y=30,
 drawtext=
+    text='Live Media Ingest (CMAF)':
+    fontsize=32:
+    x=(w-text_w)/2:
+    y=75:
+    fontsize=32:
+    fontcolor=white,
+drawtext=
     fontcolor=white:
     fontsize=20:
-    text='{hostname}':
-    x=w-tw-30:
-    y=30
+    text='Dual Encoder Sync - Active ContainerID {hostname}':
+    x=(w-text_w)/2:
+    y=125
     [v];
 sine=frequency=1:beep_factor=480:sample_rate=48000,
 atempo=1,
@@ -207,7 +214,7 @@ for video in tracks["video"]:
         "-ism_offset", str(video_offset),
         "-video_track_timescale", str(video["timescale"]),
         ALL_TRACK_OPTS,
-        f"{pub_point_uri}/Streams(video-{video['width']}x{video['height']}-{video['bitrate']})"
+        f"{pub_point_uri}/Streams(video-{video['width']}x{video['height']}-{video['bitrate']}.cmfv)"
     ])
 
 count = 0
@@ -222,7 +229,7 @@ for audio in tracks["audio"]:
         "-ism_offset", str(audio_offset),
         "-audio_track_timescale", str(audio["timescale"]),
         ALL_TRACK_OPTS,
-        f"{pub_point_uri}/Streams(audio-{audio['language']}-{audio['bitrate']})"
+        f"{pub_point_uri}/Streams(audio-{audio['language']}-{audio['bitrate']}.cmfa)"
     ])
 
 logger.info(f"ffmpeg command: {list(flatten(command))}")

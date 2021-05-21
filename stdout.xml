@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Unified Streaming Platform  (version=1.11.1-24062) -->
+<MPD
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="urn:mpeg:dash:schema:mpd:2011"
+  xsi:schemaLocation="urn:mpeg:dash:schema:mpd:2011 http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-DASH_schema_files/DASH-MPD.xsd"
+  type="static"
+  mediaPresentationDuration="PT58.304S"
+  maxSegmentDuration="PT2S"
+  minBufferTime="PT10S"
+  profiles="urn:mpeg:dash:profile:isoff-live:2011,urn:com:dashif:dash264">
+  <Period
+    id="1"
+    duration="PT58.304S">
+    <BaseURL>dash/</BaseURL>
+    <AdaptationSet
+      id="1"
+      group="1"
+      contentType="audio"
+      lang="en"
+      segmentAlignment="true"
+      audioSamplingRate="48000"
+      mimeType="audio/mp4"
+      codecs="mp4a.40.2"
+      startWithSAP="1">
+      <AudioChannelConfiguration
+        schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011"
+        value="1" />
+      <InbandEventStream
+        schemeIdUri="urn:scte:scte35:2014:xml+bin">
+      </InbandEventStream>
+      <Role schemeIdUri="urn:mpeg:dash:role:2011" value="main" />
+      <SegmentTemplate
+        timescale="48000"
+        presentationTimeOffset="12288"
+        initialization="foo-$RepresentationID$.dash"
+        media="foo-$RepresentationID$-$Time$.dash">
+        <SegmentTimeline>
+          <S t="12288" d="33792" />
+          <S d="92160" r="29" />
+        </SegmentTimeline>
+      </SegmentTemplate>
+      <Representation
+        id="audio_eng=64000"
+        bandwidth="64000">
+      </Representation>
+    </AdaptationSet>
+    <AdaptationSet
+      id="2"
+      group="1"
+      contentType="audio"
+      lang="nl"
+      segmentAlignment="true"
+      audioSamplingRate="48000"
+      mimeType="audio/mp4"
+      codecs="mp4a.40.2"
+      startWithSAP="1">
+      <AudioChannelConfiguration
+        schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011"
+        value="1" />
+      <InbandEventStream
+        schemeIdUri="urn:scte:scte35:2014:xml+bin">
+      </InbandEventStream>
+      <Role schemeIdUri="urn:mpeg:dash:role:2011" value="main" />
+      <SegmentTemplate
+        timescale="48000"
+        presentationTimeOffset="12288"
+        initialization="foo-$RepresentationID$.dash"
+        media="foo-$RepresentationID$-$Time$.dash">
+        <SegmentTimeline>
+          <S t="12288" d="33792" />
+          <S d="92160" r="29" />
+        </SegmentTimeline>
+      </SegmentTemplate>
+      <Representation
+        id="audio_nld=64000"
+        bandwidth="64000">
+      </Representation>
+    </AdaptationSet>
+    <AdaptationSet
+      id="3"
+      group="2"
+      contentType="video"
+      par="16:9"
+      minBandwidth="1280000"
+      maxBandwidth="1920000"
+      maxWidth="1920"
+      maxHeight="1080"
+      minFrameRate="25"
+      maxFrameRate="50"
+      segmentAlignment="true"
+      sar="1:1"
+      mimeType="video/mp4"
+      startWithSAP="1">
+      <InbandEventStream
+        schemeIdUri="urn:scte:scte35:2014:xml+bin">
+      </InbandEventStream>
+      <Role schemeIdUri="urn:mpeg:dash:role:2011" value="main" />
+      <SegmentTemplate
+        timescale="600"
+        presentationTimeOffset="153"
+        initialization="foo-$RepresentationID$.dash"
+        media="foo-$RepresentationID$-$Time$.dash">
+        <SegmentTimeline>
+          <S t="0" d="576" />
+          <S d="1152" r="29" />
+        </SegmentTimeline>
+      </SegmentTemplate>
+      <Representation
+        id="video=1280000"
+        bandwidth="1280000"
+        width="1280"
+        height="720"
+        frameRate="25"
+        codecs="avc1.42C01F"
+        scanType="progressive">
+      </Representation>
+      <Representation
+        id="video=1920000"
+        bandwidth="1920000"
+        width="1920"
+        height="1080"
+        frameRate="50"
+        codecs="avc1.42C02A"
+        scanType="progressive">
+      </Representation>
+    </AdaptationSet>
+  </Period>
+</MPD>

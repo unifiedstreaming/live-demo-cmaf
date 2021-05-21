@@ -41,25 +41,24 @@ index 5ffb7619ec..8925475b19 100644
          if (mov->mode == MODE_ISM &&
 -            (st->codecpar->codec_type != AVMEDIA_TYPE_VIDEO ||
 -            (st->codecpar->codec_type == AVMEDIA_TYPE_VIDEO && !mov->video_track_timescale))) {
-+            ((st->codecpar->codec_type != AVMEDIA_TYPE_AUDIO && 
++            ((st->codecpar->codec_type != AVMEDIA_TYPE_AUDIO &&
 +              st->codecpar->codec_type != AVMEDIA_TYPE_VIDEO) ||
 +             (st->codecpar->codec_type == AVMEDIA_TYPE_AUDIO && !mov->audio_track_timescale) ||
 +             (st->codecpar->codec_type == AVMEDIA_TYPE_VIDEO && !mov->video_track_timescale))) {
               track->timescale = 10000000;
          }
- 
+
 diff --git a/libavformat/movenc.h b/libavformat/movenc.h
 index ebeddb6f0d..4a505800cd 100644
 --- a/libavformat/movenc.h
 +++ b/libavformat/movenc.h
 @@ -207,6 +207,7 @@ typedef struct MOVMuxContext {
      int first_trun;
- 
+
      int video_track_timescale;
 +    int audio_track_timescale;
- 
+
      int reserved_moov_size; ///< 0 for disabled, -1 for automatic, size otherwise
      int64_t reserved_header_pos;
--- 
+--
 2.24.1 (Apple Git-126)
-

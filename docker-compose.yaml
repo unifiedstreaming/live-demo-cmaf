@@ -8,7 +8,7 @@ services:
       - USP_LICENSE_KEY
       - CHANNEL=${CHANNEL:-test}
       - LOG_LEVEL=warn
-      - PUB_POINT_OPTS=--timed_metadata --splice_media --archiving=1 --archive_length=3600 --archive_segment_length=1800 --dvr_window_length=300 --restart_on_encoder_reconnect --hls.client_manifest_version=4 --hls.minimum_fragment_length=144/25 --mpd.minimum_fragment_length=48/25 --mpd.segment_template=time --iss.minimum_fragment_length=48/25 --iss.client_manifest_version=22
+      - PUB_POINT_OPTS=--timed_metadata --splice_media --archiving=1 --archive_length=3600 --archive_segment_length=1800 --dvr_window_length=300 --restart_on_encoder_reconnect --hls.client_manifest_version=4 --hls.minimum_fragment_length=48/25 --mpd.minimum_fragment_length=48/25 --mpd.segment_template=time --iss.minimum_fragment_length=48/25 --iss.client_manifest_version=22
     healthcheck:
       test: kill -0 1
       interval: 2s
@@ -28,8 +28,8 @@ services:
     environment:
       - PUB_POINT_URI=http://live-origin/${CHANNEL:-test}/${CHANNEL:-test}.isml
       - INTEGER_MULTIPLE_GOP_LENGTH=24
-      - AVAIL_INTERVAL=28800
-      - AVAIL_LENGTH=9600
+      - AVAIL_INTERVAL=59520 
+      - AVAIL_LENGTH=19200
       - CMFT=blib-blob-wvtt.cmft
     volumes:
       - ./media:/media/:ro
