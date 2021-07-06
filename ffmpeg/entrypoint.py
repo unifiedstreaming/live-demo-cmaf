@@ -124,7 +124,15 @@ audio_offset = int(tracks["audio"][0]["timescale"] * now)
 
 now_mod_days = Fraction(int(now * 1000000) % 86400000000, 1000000)
 
+max_framerate_int = int(max_framerate)
+now_timecode = (datetime.utcfromtimestamp(float(now)).strftime("%H\:%M\:%S"))
+now_milliseconds = int((datetime.utcfromtimestamp(float(now)).strftime("%f"))[:-3])
+now_frames = int(now_milliseconds / (1000 / max_framerate_int))
 
+logger.debug(f"max_framerate_int {max_framerate_int}")
+logger.debug(f"now_timecode {now_timecode}")
+logger.debug(f"now_milliseconds {now_milliseconds}")
+logger.debug(f"now_frames {now_frames}")
 logger.debug(f"now {now}")
 logger.debug(f"float(now) {float(now)}")
 logger.debug(f"now_seconds {now_seconds}")
@@ -145,15 +153,16 @@ smptebars = [
 
 # build the filter
 filter_complex = f"""
-[0]drawtext=
-    box=1:
-    boxborderw=4:
-    boxcolor=black:
-    fontcolor=white:
+[0]drawbox=
+y=25: x=iw/2-iw/7: c=0x00000000@1: w=iw/3.5: h=36: t=fill,
+drawtext=timecode_rate={max_framerate_int}: timecode='{now_timecode}\\:{now_frames}'" : tc24hmax=1: fontsize=32: x=(w-tw)/2+tw/2: y=30: fontcolor=white,
+drawtext=text='%{{pts\:gmtime\:{now_seconds}\:%Y-%m-%d}}\ ': fontsize=32: x=(w-tw)/2-tw/2: y=30: fontcolor=white,
+drawtext=
+    text='Live Media Ingest (CMAF)':
     fontsize=32:
-    text='%{{pts\:gmtime\:{now_seconds}\:%Y-%m-%d}}%{{pts\:hms\:{float(now_mod_days)}}}':
-    x=(w-tw)/2:
-    y=30,
+    x=(w-text_w)/2:
+    y=75:
+    fontcolor=white,
 drawtext=
     text='Live Media Ingest (CMAF)':
     fontsize=32:

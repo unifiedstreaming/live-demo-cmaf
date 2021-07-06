@@ -18,7 +18,7 @@ services:
     build: ffmpeg
     environment:
       - PUB_POINT_URI=http://live-origin/test/test.isml
-      - 'TRACKS={ "video": [ { "width": 1024, "height": 576, "bitrate": "500k", "codec": "libx264", "framerate": 25, "gop": 24, "timescale": 50 }, { "width": 1280, "height": 720, "bitrate": "1000k", "codec": "libx264", "framerate": 50, "gop": 48, "timescale": 50 } ], "audio": [ { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "eng", "timescale": 48000 }, { "samplerate": 48000, "bitrate": "128k", "codec": "aac", "language": "eng", "timescale": 48000 } ] }'
+      - 'TRACKS={ "video": [ { "width": 1024, "height": 576, "bitrate": "500k", "codec": "libx264", "framerate": 25, "gop": 48, "timescale": 25 }, { "width": 1280, "height": 720, "bitrate": "1000k", "codec": "libx264", "framerate": 25, "gop": 48, "timescale": 25 } ], "audio": [ { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "eng", "timescale": 48000 }, { "samplerate": 48000, "bitrate": "128k", "codec": "aac", "language": "eng", "timescale": 48000 } ] }'
     depends_on:
       live-origin:
         condition: service_healthy
@@ -26,7 +26,7 @@ services:
     build: ffmpeg
     environment:
       - PUB_POINT_URI=http://live-origin/test/test.isml
-      - 'TRACKS={ "video": [ { "width": 1024, "height": 576, "bitrate": "500k", "codec": "libx264", "framerate": 25, "gop": 24, "timescale": 50 }, { "width": 1280, "height": 720, "bitrate": "1000k", "codec": "libx264", "framerate": 50, "gop": 48, "timescale": 50 } ], "audio": [ { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "eng", "timescale": 48000 }, { "samplerate": 48000, "bitrate": "128k", "codec": "aac", "language": "eng", "timescale": 48000 } ] }'
+      - 'TRACKS={ "video": [ { "width": 1024, "height": 576, "bitrate": "500k", "codec": "libx264", "framerate": 25, "gop": 48, "timescale": 25 }, { "width": 1280, "height": 720, "bitrate": "1000k", "codec": "libx264", "framerate": 25, "gop": 48, "timescale": 25 } ], "audio": [ { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "eng", "timescale": 48000 }, { "samplerate": 48000, "bitrate": "128k", "codec": "aac", "language": "eng", "timescale": 48000 } ] }'
     depends_on:
       live-origin:
         condition: service_healthy
