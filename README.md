@@ -17,7 +17,7 @@ The default track configuration created is below, however encoding parameters ca
 - Video Track 1 - 1280x720 1000k AVC 96GOP@50FPS
 - Video Track 2 - 1024x576 500k AVC 48GOP@25FPS
 - Audio Track 1 - 64kbs 48kHz AAC-LC - English language
-- Audio Track 2 - 64kbs 48kHz AAC-LC - Dutch language
+- Audio Track 2 - 128kbs 48kHz AAC-LC - English language
 
 ## Disclaimer
 This demo utilises software which is still in development and is therefore not intended for production use. A list of known issues affecting this demo can be tracked [here](https://github.com/unifiedstreaming/live-demo-cmaf/issues).
