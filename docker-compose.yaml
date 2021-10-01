@@ -14,19 +14,13 @@ services:
       interval: 2s
       timeout: 5s
       retries: 30
-  ffmpeg-1:
+  ffmpeg:
     build: ffmpeg
     environment:
       - PUB_POINT_URI=http://live-origin/test/test.isml
-      - 'TRACKS={ "video": [ { "width": 1024, "height": 576, "bitrate": "500k", "codec": "libx264", "framerate": 25, "gop": 48, "timescale": 25 }, { "width": 1280, "height": 720, "bitrate": "1000k", "codec": "libx264", "framerate": 25, "gop": 48, "timescale": 25 } ], "audio": [ { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "eng", "timescale": 48000 }, { "samplerate": 48000, "bitrate": "128k", "codec": "aac", "language": "eng", "timescale": 48000 } ] }'
-    depends_on:
-      live-origin:
-        condition: service_healthy
-  ffmpeg-2:
-    build: ffmpeg
-    environment:
-      - PUB_POINT_URI=http://live-origin/test/test.isml
-      - 'TRACKS={ "video": [ { "width": 1024, "height": 576, "bitrate": "500k", "codec": "libx264", "framerate": 25, "gop": 48, "timescale": 25 }, { "width": 1280, "height": 720, "bitrate": "1000k", "codec": "libx264", "framerate": 25, "gop": 48, "timescale": 25 } ], "audio": [ { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "eng", "timescale": 48000 }, { "samplerate": 48000, "bitrate": "128k", "codec": "aac", "language": "eng", "timescale": 48000 } ] }'
+    entrypoint: /bin/sh -c "ffmpeg -nostats -re -listen 1 -i rtmp://0.0.0.0/live -map 0 -codec:a aac -codec:v libx264 -r 25 -g 48 -fflags genpts -write_prft pts  -movflags empty_moov+separate_moof+default_base_moof -f mp4 \"$$PUB_POINT_URI/Streams(ffmpeg)\""
+    ports:
+      - 1935:1935
     depends_on:
       live-origin:
         condition: service_healthy
