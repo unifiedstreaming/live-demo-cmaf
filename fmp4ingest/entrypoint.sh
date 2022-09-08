@@ -9,4 +9,4 @@ ism_offset=$(expr $(expr $integer_multiple_gops_since_epoch + 1) \* $INTEGER_MUL
 sleep_seconds=$(( $ism_offset - $seconds_since_epoch - 1 ))
 sleep $sleep_seconds
 
-/home/fmp4-ingest/ingest-tools/fmp4ingest -r --ism_offset $ism_offset -u $PUB_POINT_URI --avail $AVAIL_INTERVAL $AVAIL_LENGTH $CMFT
+/home/fmp4-ingest/ingest-tools/push_markers --track_id 100 --announce 4000 --seg_dur 1920 --vtt -r -u $PUB_POINT_URI --avail $AVAIL_INTERVAL $AVAIL_LENGTH 
