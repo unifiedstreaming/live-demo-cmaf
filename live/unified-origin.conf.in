@@ -1,0 +1,34 @@
+# Live Origin. Unified Origin with a live publishing point.
+
+ServerName live-origin
+
+LoadModule smooth_streaming_module modules/mod_smooth_streaming.so
+
+LogFormat {{LOG_FORMAT}} log_format
+
+UspLicenseKey /etc/usp-license.key
+
+<VirtualHost *:80>
+  CustomLog /dev/stdout log_format
+  ErrorLog /dev/stderr
+
+  LogLevel {{LOG_LEVEL}}
+
+  AddHandler smooth-streaming.extensions .isml
+
+  DocumentRoot /var/www/live
+
+  <Location />
+    UspHandleIsm on
+  </Location>
+
+  Header set Access-Control-Allow-Headers "origin, range"
+  Header set Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+  Header set Access-Control-Allow-Origin "*"
+  Header set Access-Control-Expose-Headers "Server,range"
+
+</VirtualHost>
+
+<Directory /var/www/live>
+    Require all granted
+</Directory>
