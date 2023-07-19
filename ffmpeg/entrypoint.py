@@ -213,7 +213,7 @@ for video in tracks["video"]:
     command.append([
         "-map", f"[v{count}]",
         "-s", f"{video['width']}x{video['height']}",
-        "-c:v", "libx264",
+        "-c:v", str(video["codec"])
         "-b:v", video["bitrate"],
         "-profile:v", "main",
         "-preset", "ultrafast",
@@ -231,7 +231,7 @@ for audio in tracks["audio"]:
     count += 1
     command.append([
         "-map", f"[a{count}]",
-        "-c:a", "aac",
+        "-c:a", str(audio["codec"]),
         "-b:a", str(audio["bitrate"]),
         "-ar", str(audio["samplerate"]),
         "-metadata:s:a:0", f"language={audio['language']}",
