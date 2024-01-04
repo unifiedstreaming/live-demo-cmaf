@@ -213,7 +213,7 @@ for video in tracks["video"]:
     command.append([
         "-map", f"[v{count}]",
         "-s", f"{video['width']}x{video['height']}",
-        "-c:v", str(video["codec"])
+        "-c:v", str(video["codec"]),
         "-b:v", video["bitrate"],
         "-profile:v", "main",
         "-preset", "ultrafast",
