@@ -74,7 +74,6 @@ RUN     DIR=$(mktemp -d) && cd ${DIR} && \
         --enable-libfontconfig \
         --enable-libfreetype \
         --enable-gpl \
-        --enable-avresample \
         --enable-postproc \
         --enable-nonfree \
         --disable-debug \
