@@ -96,12 +96,6 @@ Stop the services by running:
 ```
 docker compose down
 ```
-Restart the trial with a simplified example configured to ingest only 1 video and 1 audio track.
-
-```
-docker compose -f docker-compose-simple.yaml up -d
-```
-Then following Step 3 to playback the new stream.
 
 ### Tips
 To check when your license key expires:
