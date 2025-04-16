@@ -106,17 +106,17 @@ Then following Step 3 to playback the new stream.
 ### Tips
 To check when your license key expires:
 ```
-docker exec -it live-streaming-trial_live-streaming-origin_1 mp4split
+docker exec -it live-demo-cmaf-live-origin-1 mp4split
 --show_license
 ```
 
 To print and tail origin container's logs:
 ```
-docker logs -f live-streaming-trial_live-streaming-origin_1
+docker logs -f live-demo-cmaf-live-origin-1
 ```
 To get into origin container's shell:
 ```
-docker exec -it -w /var/www/unified-origin live-streaming-trial_live-streaming-origin_1 /bin/sh
+docker exec -it -w /var/www/unified-origin live-demo-cmaf-live-origin-1 /bin/sh
 ```
 
 ## What's next?
