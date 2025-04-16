@@ -63,13 +63,13 @@ Which should respond:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Created with Unified Streaming Platform  (version=1.12.1-28247) -->
+<!-- Created with Unified Streaming Platform  (version=1.15.5-31515) -->
 <smil
   xmlns="http://www.w3.org/2001/SMIL20/Language">
   <head>
     <meta
       name="updated"
-      content="2023-01-20T15:38:30.557813Z">
+      content="2025-04-16T14:47:11.238512Z">
     </meta>
     <meta
       name="state"
@@ -124,7 +124,7 @@ Watching the stream can be done using your player of choice, for example FFplay.
 
 ```bash
 #!/bin/sh
-ffplay http://localhost/test/test.isml/.m3u8
+ffplay http://localhost/channel1/channel1.isml/.m3u8
 ```
 
 And it should look something like:
