@@ -3,11 +3,11 @@
 # https://hub.docker.com/r/jrottenberg/ffmpeg/
 #
 #
-FROM    alpine:3.12
+FROM    alpine:3.21
 
 
-ENV     X264_VERSION=20160826-2245-stable \
-        X265_VERSION=x265_2.8 \
+ENV     X264_VERSION=20191217-2245-stable \
+        X265_VERSION=x265_4.1 \
         PKG_CONFIG_PATH=/usr/local/lib/pkgconfig \
         SRC=/usr/local
 
@@ -37,7 +37,7 @@ RUN     buildDeps="autoconf \
         curl -sL https://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-${X264_VERSION}.tar.bz2 | \
         tar -jx --strip-components=1 && \
         ./configure --prefix="${SRC}" --bindir="${SRC}/bin" --enable-pic --enable-shared --disable-cli && \
-        make && \
+        make -j$(nproc) && \
         make install && \
         rm -rf ${DIR} && \
         # x265 http://www.videolan.org/developers/x265.html
@@ -79,7 +79,7 @@ RUN     DIR=$(mktemp -d) && cd ${DIR} && \
         --enable-nonfree \
         --disable-debug \
         --enable-openssl && \
-        make && \
+        make -j$(nproc) && \
         make install && \
         make distclean && \
         hash -r && \

@@ -1,0 +1,6 @@
+# Override default transcoders with FFmpeg-based ones.
+
+video_decoder_avc     avcodec
+video_decoder_hvc     avcodec
+video_filter_resize   swscale
+video_encoder_jpg     avcodec

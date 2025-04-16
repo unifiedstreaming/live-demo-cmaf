@@ -1,14 +1,14 @@
 version: "2.1"
 services:
   live-origin:
-    image: unifiedstreaming/live:latest
+    build: origin
     ports:
       - 80:80
     environment:
       - USP_LICENSE_KEY
-      - CHANNEL=test
+      - PUB_POINT_NAME=channel1
       - LOG_LEVEL=warn
-      - PUB_POINT_OPTS=--archiving=1 --archive_length=3600 --archive_segment_length=1800 --dvr_window_length=30 --restart_on_encoder_reconnect --mpd.min_buffer_time=48/25 --mpd.suggested_presentation_delay=48/25 --hls.minimum_fragment_length=48/25 --mpd.minimum_fragment_length=48/25 --mpd.segment_template=time --hls.client_manifest_version=4 --hls.fmp4
+      - PUB_POINT_OPTS=--archiving=1 --archive_length=3600 --archive_segment_length=1800 --dvr_window_length=30 --restart_on_encoder_reconnect --mpd.min_buffer_time=48/25 --mpd.suggested_presentation_delay=48/25 --hls.minimum_fragment_length=48/25 --mpd.minimum_fragment_length=48/25 --mpd.segment_template=number_timeline --hls.client_manifest_version=4 --hls.fmp4
     healthcheck:
       test: kill -0 1
       interval: 2s
@@ -17,16 +17,16 @@ services:
   ffmpeg-1:
     build: ffmpeg
     environment:
-      - PUB_POINT_URI=http://live-origin/test/test.isml
-      - 'TRACKS={ "video": [ { "width": 1024, "height": 576, "bitrate": "500k", "codec": "libx264", "framerate": 25, "gop": 48, "timescale": 25 }, { "width": 1280, "height": 720, "bitrate": "1000k", "codec": "libx264", "framerate": 25, "gop": 48, "timescale": 25 } ], "audio": [ { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "eng", "timescale": 48000 }, { "samplerate": 48000, "bitrate": "128k", "codec": "aac", "language": "eng", "timescale": 48000 } ] }'
+      - PUB_POINT_URI=http://live-origin/channel1/channel1.isml
+      - 'TRACKS={ "video": [ { "width": 1280, "height": 720, "bitrate": "500k", "codec": "libx264", "framerate": 25, "gop": 48, "timescale": 25 },{ "width": 640, "height": 360, "bitrate": "300k", "codec": "libx264", "framerate": 25, "gop": 48, "timescale": 25 } ], "audio": [ { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "eng", "timescale": 48000, "frag_duration_micros": 1920000 },{ "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "dut", "timescale": 48000, "frag_duration_micros": 1920000 } ] }'
     depends_on:
       live-origin:
         condition: service_healthy
   ffmpeg-2:
     build: ffmpeg
     environment:
-      - PUB_POINT_URI=http://live-origin/test/test.isml
-      - 'TRACKS={ "video": [ { "width": 1024, "height": 576, "bitrate": "500k", "codec": "libx264", "framerate": 25, "gop": 48, "timescale": 25 }, { "width": 1280, "height": 720, "bitrate": "1000k", "codec": "libx264", "framerate": 25, "gop": 48, "timescale": 25 } ], "audio": [ { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "eng", "timescale": 48000 }, { "samplerate": 48000, "bitrate": "128k", "codec": "aac", "language": "eng", "timescale": 48000 } ] }'
+      - PUB_POINT_URI=http://live-origin/channel1/channel1.isml
+      - 'TRACKS={ "video": [ { "width": 1280, "height": 720, "bitrate": "500k", "codec": "libx264", "framerate": 25, "gop": 48, "timescale": 25 },{ "width": 640, "height": 360, "bitrate": "300k", "codec": "libx264", "framerate": 25, "gop": 48, "timescale": 25 } ], "audio": [ { "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "eng", "timescale": 48000, "frag_duration_micros": 1920000 },{ "samplerate": 48000, "bitrate": "64k", "codec": "aac", "language": "dut", "timescale": 48000, "frag_duration_micros": 1920000 } ] }'
     depends_on:
       live-origin:
         condition: service_healthy
