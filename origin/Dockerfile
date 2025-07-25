@@ -53,7 +53,7 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 COPY html /var/www/unified-origin/
 
 # Copy Transcoder Config for ffmpeg-usp
-#COPY ffmpeg-transcoders.usp /etc/ffmpeg-transcoders.usp
+##COPY ffmpeg-transcoders.usp /etc/ffmpeg-transcoders.usp
 
 # set Apache as owner of /var/www/unified-origin so it can write from API
 RUN chown apache:apache /var/www/unified-origin
