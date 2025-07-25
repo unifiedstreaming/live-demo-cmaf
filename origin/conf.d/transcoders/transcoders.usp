@@ -1,0 +1,13 @@
+# Override default transcoders with FFmpeg-based ones.
+# Video_encoder_avc must us the x264 encoder which is running on a separate
+# container, so overriding the default service_host with the x264 encoder
+# service name and port
+
+# In case you have use cases that require a different codec configuration,
+# create a separate transcoders file.
+
+video_decoder_avc     avcodec
+video_decoder_hvc     avcodec
+video_filter_resize   swscale
+video_encoder_jpg     avcodec
+video_encoder_avc     x264      service_host=x264-encoding-service service_port=11264

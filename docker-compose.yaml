@@ -14,6 +14,18 @@ services:
       interval: 2s
       timeout: 5s
       retries: 30
+  x264-encoding-service:
+    image: docker.io/unifiedstreaming/x264-encoding-service
+    container_name: x264-encoding-service
+    environment:
+      - LOG_LEVEL=warning
+    healthcheck:
+      test: ["CMD", "nc", "-z", "0.0.0.0", "11264"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
   ffmpeg-1:
     build: ffmpeg
     environment:

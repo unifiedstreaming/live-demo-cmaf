@@ -6,7 +6,7 @@ FROM alpine:$ALPINEVERSION
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 ARG ALPINEVERSION
 ARG REPO=https://stable.apk.unified-streaming.com/alpine
-ARG VERSION=1.15.5
+ARG VERSION=1.15.9
 
 # Get USP public key
 RUN wget -q -O /etc/apk/keys/alpine@unified-streaming.com.rsa.pub \
@@ -19,8 +19,10 @@ RUN apk \
     add \
         mp4split~$VERSION \
         mp4split-ffmpeg-plugins~$VERSION \
+        mp4split-x264-plugins~$VERSION \
         mod_smooth_streaming~$VERSION \
         mod_unified_s3_auth~$VERSION \
+        mod_unified_transcode~$VERSION \
         manifest-edit~$VERSION \
 &&  rm -f /var/cache/apk/*
 
@@ -51,7 +53,7 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 COPY html /var/www/unified-origin/
 
 # Copy Transcoder Config for ffmpeg-usp
-COPY ffmpeg-transcoders.usp /etc/ffmpeg-transcoders.usp
+#COPY ffmpeg-transcoders.usp /etc/ffmpeg-transcoders.usp
 
 # set Apache as owner of /var/www/unified-origin so it can write from API
 RUN chown apache:apache /var/www/unified-origin
