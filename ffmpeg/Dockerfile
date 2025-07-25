@@ -24,6 +24,7 @@ RUN     buildDeps="autoconf \
                    git \
                    libtool \
                    make \
+                   nasm \
                    openssl-dev \
                    tar \
                    yasm \
